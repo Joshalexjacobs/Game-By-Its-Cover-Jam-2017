@@ -75,6 +75,7 @@ function parser(word)
   if curWord > #challengerFile[cfIndex] then
     cfIndex = cfIndex + 1
     curWord = 1
+    endOfLine:play()
   end
 
   return ''

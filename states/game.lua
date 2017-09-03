@@ -7,6 +7,14 @@ string = ""
 function game:enter()
   textBox = maid64.newImage("img/textbox.png")
 
+  menuMusic:stop()
+
+  -- level music
+  chimpMusic = love.audio.newSource("music/Venus.wav")
+  -- chimpMusic:setVolume(0)
+  chimpMusic:setLooping(true)
+  chimpMusic:play()
+
   -- keyboard sfx
   keyboard = {
     love.audio.newSource("sfx/keyboard/keyboard1.wav", "static"),
@@ -55,11 +63,15 @@ function game:keypressed(key, code)
 end
 
 function game:update(dt)
-  if menuMusic:getVolume() ~= 0 then
-    menuMusic:setVolume(menuMusic:getVolume() - dt * 0.25)
-  elseif menuMusic:getVolume() == 0 then
-    menuMusic:stop()
-  end
+  -- if menuMusic:getVolume() ~= 0 then
+  --   menuMusic:setVolume(menuMusic:getVolume() - dt * 0.25)
+  -- elseif menuMusic:getVolume() == 0 then
+  --   menuMusic:stop()
+  -- end
+
+  -- if chimpMusic:getVolume() ~= 1 then
+  --   chimpMusic:setVolume(chimpMusic:getVolume() + dt * 0.1)
+  -- end
 end
 
 function game:draw()

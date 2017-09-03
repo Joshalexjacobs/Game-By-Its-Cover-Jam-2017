@@ -24,6 +24,9 @@ function love.load(arg)
   correctWord = love.audio.newSource("sfx/correctWord.wav", "static")
   correctWord:setRolloff(0.01)
 
+  endOfLine = love.audio.newSource("sfx/endOfLine.wav", "static")
+  endOfLine:setRolloff(0.01)
+
   -- load fonts
   smallestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 6)
   smallFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 7)
