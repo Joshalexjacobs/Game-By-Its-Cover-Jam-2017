@@ -1,0 +1,12 @@
+Assets used to develop ~ ~  T Y P I N G  C H A M P ! ~ ~
+============================================================
+fonts:
+  - https://fontstruct.com/fontstructions/show/713378/punch_out_nes
+
+music:
+  - https://opengameart.org/content/nes-shooter-music-5-tracks-3-jingles
+
+sfx:
+  - https://opengameart.org/content/512-sound-effects-8-bit-style
+
+THANK YOU TO EVERYONE THAT HELPED MAKE T Y P I N G  C H A M P POSSIBLE!!!
