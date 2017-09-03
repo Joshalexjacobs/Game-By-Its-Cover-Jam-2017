@@ -9,7 +9,7 @@ require "lib/maid64"
 
 require "states/menu"
 
-require "challengerLoader"
+require "challenger"
 
 DEBUG = false
 
@@ -20,6 +20,9 @@ function love.load(arg)
   -- general sound effects
   menuSelect = love.audio.newSource("sfx/menuSelect.wav", "static")
   menuSelect:setRolloff(0.01)
+
+  correctWord = love.audio.newSource("sfx/correctWord.wav", "static")
+  correctWord:setRolloff(0.01)
 
   -- load fonts
   smallestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 6)
