@@ -6,6 +6,7 @@ string = ""
 
 function game:enter()
   textBox = maid64.newImage("img/textbox.png")
+  stage = maid64.newImage("img/stage.png")
 
   menuMusic:stop()
 
@@ -33,7 +34,6 @@ end
 
 function clickClack()
   local kbIndex = love.math.random(1, #keyboard)
-  print(kbIndex)
   keyboard[kbIndex]:setPitch(1 - love.math.random(-1, 1) * 0.1)
   keyboard[kbIndex]:play()
 end
@@ -63,6 +63,7 @@ function game:keypressed(key, code)
 end
 
 function game:update(dt)
+  updatePoints(dt)
   -- if menuMusic:getVolume() ~= 0 then
   --   menuMusic:setVolume(menuMusic:getVolume() - dt * 0.25)
   -- elseif menuMusic:getVolume() == 0 then
@@ -77,12 +78,15 @@ end
 function game:draw()
   maid64.start()
   love.graphics.setFont(bigFont)
-  love.graphics.printf("TYPING CHIMP", 0, 20, 102*4, "center")
+  -- love.graphics.printf("TYPING CHIMP ", 0, 20, 102*4, "center")
 
+  love.graphics.draw(stage, 32, 32, 0, 1, 1, 32, 32)
   love.graphics.draw(textBox, 32, 189, 0, 1, 1, 32, 32)
 
   love.graphics.setFont(medFont)
+  drawScore()
   drawCurrentWord()
+  drawPoints()
   love.graphics.printf(string, 0, 230, 102*4, "center")
 
   maid64.finish()

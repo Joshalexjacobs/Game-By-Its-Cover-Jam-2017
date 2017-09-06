@@ -37,8 +37,14 @@ local CURRENT = {255, 255, 0, 255}
 local PASS = {0, 255, 0, 255}
 local FAIL = {255, 0, 0, 255}
 
-function loadChallengerAudio()
-
+local function shuffle(x)
+  local n = #x -- gets the length of the table
+  while n >= 2 do -- only run if the table has more than 1 element
+    local k = love.math.random(n) -- get a random number
+    x[n], x[k] = x[k], x[n]
+    n = n - 1
+  end
+  return x
 end
 
 function loadChallengerFile()
@@ -57,12 +63,30 @@ function loadChallengerFile()
 
     table.insert(challengerFile, newLine)
   end
+
+  challengerFile = shuffle(challengerFile)
+end
+
+function reloadChallengerFile()
+  cfIndex = 1
+
+  for i, file in ipairs(challengerFile) do
+    for j = 1, #challengerFile[i] do
+      challengerFile[i][j].color = NONE
+    end
+  end
+
+  challengerFile = shuffle(challengerFile)
+end
+
+local function stripSpaces(word)
+  return string.gsub(word, ' ', '')
 end
 
 function parser(word)
-  local match = challengerFile[cfIndex][curWord].word
+  local match = stripSpaces(challengerFile[cfIndex][curWord].word)
 
-  if word == match then
+  if stripSpaces(word) == match then
     challengerFile[cfIndex][curWord].color = PASS
     -- correctWord:setPitch(1 - love.math.random(-1, 1) * 0.2)
     correctWord:play()
@@ -73,9 +97,28 @@ function parser(word)
   curWord = curWord + 1
 
   if curWord > #challengerFile[cfIndex] then
-    cfIndex = cfIndex + 1
+    local count = 0
+
+    for i, file in ipairs(challengerFile[cfIndex]) do
+      if file.color == PASS then
+        count = count + 1
+      end
+    end
+
+    if #challengerFile[cfIndex] == count then
+      count = count + 2
+      perfectLine:play()
+    else
+      endOfLine:play()
+    end
+
+    addPoints(count)
+    if cfIndex == #challengerFile then
+      reloadChallengerFile()
+    else
+      cfIndex = cfIndex + 1
+    end
     curWord = 1
-    endOfLine:play()
   end
 
   return ''
@@ -94,6 +137,6 @@ function drawCurrentWord()
     end
   end
 
-  love.graphics.printf(coloredText, 4, 190, 404, "center")
+  love.graphics.printf(coloredText, 12, 190, 390, "center")
   love.graphics.setColor(NONE)
 end

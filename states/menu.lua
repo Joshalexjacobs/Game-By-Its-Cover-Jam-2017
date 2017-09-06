@@ -4,6 +4,8 @@ require "states/game"
 
 menu = {}
 
+local state = 0
+
 function menu:enter()
   titleImg = maid64.newImage("img/title.png")
   menuMusic = love.audio.newSource("music/Mercury.wav")
@@ -22,7 +24,9 @@ function menu:keypressed(key, code)
 end
 
 function menu:update(dt)
-
+  -- if state == 1 then
+  --
+  -- end
 end
 
 function menu:draw()

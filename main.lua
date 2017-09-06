@@ -10,6 +10,7 @@ require "lib/maid64"
 require "states/menu"
 
 require "challenger"
+require "score"
 
 DEBUG = false
 
@@ -26,6 +27,9 @@ function love.load(arg)
 
   endOfLine = love.audio.newSource("sfx/endOfLine.wav", "static")
   endOfLine:setRolloff(0.01)
+
+  perfectLine = love.audio.newSource("sfx/perfectLine.wav", "static")
+  perfectLine:setRolloff(0.01)
 
   -- load fonts
   smallestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 6)
