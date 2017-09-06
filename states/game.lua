@@ -29,6 +29,7 @@ function game:enter()
     keyboard[i]:setVolume(0.35)
   end
 
+  playerLoad()
   loadChallengerFile()
 end
 
@@ -85,6 +86,7 @@ function game:draw()
 
   love.graphics.setFont(medFont)
   drawScore()
+  drawPlayerBars()
   drawCurrentWord()
   drawPoints()
   love.graphics.printf(string, 0, 230, 102*4, "center")

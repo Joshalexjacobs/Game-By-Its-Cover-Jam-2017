@@ -9,6 +9,8 @@ require "lib/maid64"
 
 require "states/menu"
 
+require "player"
+
 require "challenger"
 require "score"
 
