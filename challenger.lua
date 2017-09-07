@@ -1,16 +1,14 @@
 -- challengerLoader
 
---[[
-Challengers:
-- Typing Chimp
-- Data Entry Darrel
-- Batty Bookkeeper
-- The Squinting Stenographer
-- Queen QWERTY
-]]
-
 local challengersFiles = {
   "challengers/typingChimp/typingChimp.txt", -- typing chimp
+  --[[
+  Other Challengers:
+  - Data Entry Darrel
+  - Batty Bookkeeper
+  - The Squinting Stenographer
+  - Queen QWERTY
+  ]]
 }
 local challengersIndex = 1
 
@@ -18,6 +16,7 @@ local challengerFile = {}
 local cfIndex = 1
 local curWord = 1
 
+-- challengerFile diagram:
 -- {
 --   { -- line 1 -- cfIndex = 1
 --     {word = "place ", color = PASS}, -- word 1
@@ -28,14 +27,6 @@ local curWord = 1
 --
 --   }
 -- }
-
-local challenger = {}
-
--- colors:
-local NONE = {255, 255, 255, 255}
-local CURRENT = {255, 255, 0, 255}
-local PASS = {0, 255, 0, 255}
-local FAIL = {255, 0, 0, 255}
 
 local function shuffle(x)
   local n = #x -- gets the length of the table
@@ -80,7 +71,7 @@ function reloadChallengerFile()
 end
 
 local function stripSpaces(word)
-  return string.gsub(word, ' ', '')
+  return string.lower(string.gsub(word, ' ', ''))
 end
 
 function parser(word)
@@ -112,13 +103,28 @@ function parser(word)
       endOfLine:play()
     end
 
+    -- increase player Stamina
     addPoints(count)
+    addStamina(count)
+
     if cfIndex == #challengerFile then
       reloadChallengerFile()
     else
       cfIndex = cfIndex + 1
     end
     curWord = 1
+  end
+
+  return ''
+end
+
+function battleParser(word)
+  if stripSpaces(word) == "attack" then
+    attack()
+  elseif stripSpaces(word) == "defend" then
+    defend()
+  elseif stripSpaces(word) == "special" then
+    special()
   end
 
   return ''
@@ -139,4 +145,8 @@ function drawCurrentWord()
 
   love.graphics.printf(coloredText, 12, 190, 390, "center")
   love.graphics.setColor(NONE)
+end
+
+function drawBattleOptions()
+  love.graphics.printf(getBattleOptions(), 12, 190, 390, "center")
 end

@@ -18,6 +18,7 @@ function addPoints(x)
     p = x,
     color = {0, 255, 0, 255}
   }
+
   table.insert(points, point)
 end
 
@@ -39,5 +40,5 @@ function drawPoints()
 end
 
 function drawScore()
-  love.graphics.printf(playerScore, 10, 10, 100)
+  --love.graphics.printf(playerScore, 10, 10, 100)
 end

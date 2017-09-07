@@ -4,6 +4,8 @@ game = {}
 
 string = ""
 
+battle = false
+
 function game:enter()
   textBox = maid64.newImage("img/textbox.png")
   stage = maid64.newImage("img/stage.png")
@@ -42,12 +44,18 @@ end
 function game:textinput(t) -- add user keystrokes to existing input
   if t ~= ' ' then
     string = string .. t
-  elseif t == ' ' and #string > 0 then
+  elseif t == ' ' and #string > 0 and battle == false then
     string = parser(string .. t)
+  elseif t == ' ' and #string > 0 and battle then
+    string = battleParser(string .. t)
   end
 
   if #string > 20 then
-    string = parser(string .. t)
+    if battle == false then
+      string = parser(string .. t)
+    elseif battle then
+      string = battleParser(string .. t)
+    end
   end
 
   clickClack()
@@ -65,6 +73,11 @@ end
 
 function game:update(dt)
   updatePoints(dt)
+  local player = updatePlayer(dt)
+
+  if player.stamina >= player.staminaMAX then
+    battle = true
+  end
   -- if menuMusic:getVolume() ~= 0 then
   --   menuMusic:setVolume(menuMusic:getVolume() - dt * 0.25)
   -- elseif menuMusic:getVolume() == 0 then
@@ -78,18 +91,24 @@ end
 
 function game:draw()
   maid64.start()
-  love.graphics.setFont(bigFont)
-  -- love.graphics.printf("TYPING CHIMP ", 0, 20, 102*4, "center")
 
-  love.graphics.draw(stage, 32, 32, 0, 1, 1, 32, 32)
+  -- draw background images
+  --love.graphics.draw(stage, 32, 32, 0, 1, 1, 32, 32)
   love.graphics.draw(textBox, 32, 189, 0, 1, 1, 32, 32)
 
+  -- draw words to type
   love.graphics.setFont(medFont)
+  if battle == false then
+    drawCurrentWord()
+  else
+    drawBattleOptions()
+  end
+
+  -- draw UI stuff
+  love.graphics.printf(string, 0, 230, 102*4, "center")
   drawScore()
   drawPlayerBars()
-  drawCurrentWord()
   drawPoints()
-  love.graphics.printf(string, 0, 230, 102*4, "center")
 
   maid64.finish()
 end

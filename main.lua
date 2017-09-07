@@ -16,9 +16,18 @@ require "score"
 
 DEBUG = false
 
+-- global colors:
+NONE = {255, 255, 255, 255}
+CURRENT = {255, 255, 0, 255}
+PASS = {0, 255, 0, 255}
+FAIL = {255, 0, 0, 255}
+
 function love.load(arg)
-  love.window.setMode(160*4, 144*2.97, {resizable=true, vsync=true, minwidth=200, minheight=200}) -- 640 x 427
+  love.window.setMode(102*12, 64*12, {resizable=true, vsync=true, minwidth=200, minheight=200}) -- 640 x 427
   maid64.setup(102*4, 64*4)
+
+  -- seed love.math.rand() using os time
+  math.randomseed(os.time())
 
   -- general sound effects
   menuSelect = love.audio.newSource("sfx/menuSelect.wav", "static")
