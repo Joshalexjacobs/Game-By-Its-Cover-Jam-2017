@@ -7,6 +7,9 @@ local player = {
   stamina = 0,
   shieldMAX = 10,
   shield = 0,
+  strength = 3,
+  attackDie = 6,
+  attackMultiplier = 1
 }
 
 local battleOptions = {}
@@ -26,7 +29,16 @@ function playerLoad()
 end
 
 function attack()
-  print("attack")
+  -- calculate and return damage
+  local damage = 0
+
+  for i = 1, player.attackMultiplier do
+    damage = damage + love.math.random(1, player.attackDie) + player.strength
+  end
+
+  player.stamina = 0
+
+  return damage
 end
 
 function defend()

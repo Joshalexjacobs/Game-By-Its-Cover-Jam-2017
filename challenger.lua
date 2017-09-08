@@ -1,5 +1,7 @@
 -- challengerLoader
 
+chimp = require "challengers/typingChimp/typingChimp"
+
 local challengersFiles = {
   "challengers/typingChimp/typingChimp.txt", -- typing chimp
   --[[
@@ -15,6 +17,8 @@ local challengersIndex = 1
 local challengerFile = {}
 local cfIndex = 1
 local curWord = 1
+
+local curEnemy = chimp
 
 -- challengerFile diagram:
 -- {
@@ -39,6 +43,8 @@ local function shuffle(x)
 end
 
 function loadChallengerFile()
+  chimp.load()
+
   -- load the current challenger's text file
   for line in io.lines(challengersFiles[challengersIndex]) do
     local newLine = {}
@@ -120,7 +126,8 @@ end
 
 function battleParser(word)
   if stripSpaces(word) == "attack" then
-    attack()
+    curEnemy.damage(attack())
+    battle = false
   elseif stripSpaces(word) == "defend" then
     defend()
   elseif stripSpaces(word) == "special" then
@@ -149,4 +156,8 @@ end
 
 function drawBattleOptions()
   love.graphics.printf(getBattleOptions(), 12, 190, 390, "center")
+end
+
+function drawEnemy()
+  curEnemy.draw()
 end

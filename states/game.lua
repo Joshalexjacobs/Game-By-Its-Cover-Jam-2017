@@ -96,6 +96,8 @@ function game:draw()
   --love.graphics.draw(stage, 32, 32, 0, 1, 1, 32, 32)
   love.graphics.draw(textBox, 32, 189, 0, 1, 1, 32, 32)
 
+  drawEnemy()
+
   -- draw words to type
   love.graphics.setFont(medFont)
   if battle == false then
@@ -109,6 +111,7 @@ function game:draw()
   drawScore()
   drawPlayerBars()
   drawPoints()
+
 
   maid64.finish()
 end
