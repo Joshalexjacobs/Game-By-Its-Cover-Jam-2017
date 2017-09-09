@@ -5,6 +5,7 @@ game = {}
 string = ""
 
 battle = false
+dodge = false
 
 function game:enter()
   textBox = maid64.newImage("img/textbox.png")
@@ -41,6 +42,9 @@ function game:enter()
     love.audio.newSource("sfx/damage/damage6.wav", "static"),
     love.audio.newSource("sfx/damage/damage7.wav", "static"),
   }
+
+  -- defend sfx
+  defendSFX = love.audio.newSource("sfx/defend.wav", "static")
 
   -- for i = 1, #damage do
   --   damage[i]:setVolume(0.5)
@@ -121,6 +125,8 @@ function game:draw()
   elseif battle then
     drawBattleOptions()
   end
+
+  drawLog()
 
   -- draw UI stuff
   love.graphics.printf(string, 0, 230, 102*4, "center")

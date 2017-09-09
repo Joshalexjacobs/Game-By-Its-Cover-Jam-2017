@@ -5,7 +5,7 @@ local player = {
   healthMAX = 100,
   staminaMAX = 25,
   stamina = 20,
-  shieldMAX = 10,
+  shieldMAX = 7,
   shield = 0,
   endurance = 2,
   strength = 3,
@@ -18,6 +18,7 @@ local battleOptions = {}
 function playerLoad()
   heart = maid64.newImage("img/heart.png")
   stamina = maid64.newImage("img/stamina.png")
+  shield = maid64.newImage("img/shield.png")
 
   table.insert(battleOptions, NONE) -- 1
   table.insert(battleOptions, "attack ") -- 2
@@ -39,19 +40,26 @@ function attack()
 
   player.stamina = 0
 
+  setLog("Howard took "..damage.." damage!")
+
   return damage
 end
 
 function defend()
   player.shield = player.shield + player.endurance
-  if player.shield > player.shieldMAX then player.shield = player.shieldMAX end
+  if player.shield > player.shieldMAX then
+    player.shield = player.shieldMAX
+    -- change battleOptions so shield is red
+  end
   addPoints(love.math.random(25, 100), 200, player.endurance, {0, 0, 255, 255})
   player.stamina = 0
+  defendSFX:play()
+  setLog("Shield increased by " .. player.endurance .."!")
 end
 
 function special()
   if battleOptions[5] == FAIL then
-    print("CANNOT CAST SPECIAL")
+    setLog("Your special is not ready yet!")
   else
     -- do special stuff
   end
@@ -83,4 +91,11 @@ function drawPlayerBars()
   displayStamina = displayStamina * 36
   love.graphics.draw(stamina, 65, 5, 0, 1, 1, 0, 0)
   love.graphics.rectangle("fill", 84, 7.5, displayStamina, 10)
+
+  -- shield:
+  local displayShield = player.shield / player.shieldMAX
+  if displayShield > 1 then displayShield = 1 end
+  displayShield = displayShield * 112
+  love.graphics.rectangle("fill", 7, 24, displayShield, 3)
+  love.graphics.draw(shield, 7, 12, 0, 1, 1, 0, 0)
 end

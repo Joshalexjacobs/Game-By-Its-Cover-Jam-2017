@@ -51,6 +51,12 @@ enemy.update = function(dt)
   else
     enemy.color = NONE
   end
+
+  if enemy.stamina == enemy.staminaMAX then
+    
+  else
+    enemy.stamina = enemy.stamina + enemy.staminaRate * dt
+  end
 end
 
 enemy.draw = function()

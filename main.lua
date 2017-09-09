@@ -23,6 +23,17 @@ CURRENT = {255, 255, 0, 255}
 PASS = {0, 255, 0, 255}
 FAIL = {255, 0, 0, 255}
 
+function copy(obj, seen)
+  if type(obj) ~= 'table' then return obj end
+  if seen and seen[obj] then return seen[obj] end
+  local s = seen or {}
+  local res = setmetatable({}, getmetatable(obj))
+  s[obj] = res
+  for k, v in pairs(obj) do res[copy(k, s)] = copy(v, s) end
+  return res
+end
+
+
 function love.load(arg)
   love.window.setMode(102*12, 64*12, {resizable=true, vsync=true, minwidth=200, minheight=200}) -- 640 x 427
   maid64.setup(102*4, 64*4)

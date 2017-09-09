@@ -5,6 +5,16 @@ local enemyScore = 0
 
 local points = {}
 
+local log = {
+  x = 0,
+  y = 50,
+  originalY = 50,
+  text = "",
+  color = {85, 199, 83, 255}
+}
+
+local logs = {}
+
 function addScore(x)
   playerScore = playerScore + x
 end
@@ -22,10 +32,29 @@ function addPoints(x, y, p, color)
   table.insert(points, point)
 end
 
+function setLog(text)
+  newLog = copy(log, newLog)
+  newLog.text = text
+  newLog.color[4] = 255
+  newLog.y = 50
+  table.insert(logs, newLog)
+end
+
 function updatePoints(dt)
-  for _, point in ipairs(points) do
+  for i, point in ipairs(points) do
     point.y = point.y - (dt * 150)
     point.color[4] = point.color[4] - 2.5
+    if point.color[4] <= 0 then
+      table.remove(points, i)
+    end
+  end
+
+  for i, log in ipairs(logs) do
+    log.y = log.y - (dt * 15)
+    log.color[4] = log.color[4] -0.5
+    if log.color[4] <= 0 then
+      table.remove(logs, i)
+    end
   end
 end
 
@@ -41,4 +70,13 @@ end
 
 function drawScore()
   --love.graphics.printf(playerScore, 10, 10, 100)
+end
+
+function drawLog()
+  for _, log in ipairs(logs) do
+    love.graphics.setFont(medFont)
+    love.graphics.setColor(log.color)
+    love.graphics.printf(log.text, log.x, log.y, 408, "center")
+    love.graphics.setColor(NONE)
+  end
 end
