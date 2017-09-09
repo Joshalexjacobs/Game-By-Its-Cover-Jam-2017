@@ -9,14 +9,14 @@ function addScore(x)
   playerScore = playerScore + x
 end
 
-function addPoints(x)
-  addScore(x)
+function addPoints(x, y, p, color)
+  -- addScore(p)
 
   local point = {
-    x = love.math.random(25, 300),
-    y = 200,
-    p = x,
-    color = {0, 255, 0, 255}
+    x = x,
+    y = y,
+    p = p,
+    color = color
   }
 
   table.insert(points, point)

@@ -6,6 +6,7 @@
 Gamestate = require "lib/gamestate"
 anim8 = require "lib/anim8"
 require "lib/maid64"
+require "lib/timer"
 
 require "states/menu"
 

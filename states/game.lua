@@ -31,6 +31,21 @@ function game:enter()
     keyboard[i]:setVolume(0.35)
   end
 
+  -- damage sfx
+  damage = {
+    love.audio.newSource("sfx/damage/damage1.wav", "static"),
+    love.audio.newSource("sfx/damage/damage2.wav", "static"),
+    love.audio.newSource("sfx/damage/damage3.wav", "static"),
+    love.audio.newSource("sfx/damage/damage4.wav", "static"),
+    love.audio.newSource("sfx/damage/damage5.wav", "static"),
+    love.audio.newSource("sfx/damage/damage6.wav", "static"),
+    love.audio.newSource("sfx/damage/damage7.wav", "static"),
+  }
+
+  -- for i = 1, #damage do
+  --   damage[i]:setVolume(0.5)
+  -- end
+
   playerLoad()
   loadChallengerFile()
 end
@@ -74,6 +89,7 @@ end
 function game:update(dt)
   updatePoints(dt)
   local player = updatePlayer(dt)
+  challengerUpdate(dt)
 
   if player.stamina >= player.staminaMAX then
     battle = true
@@ -102,7 +118,7 @@ function game:draw()
   love.graphics.setFont(medFont)
   if battle == false then
     drawCurrentWord()
-  else
+  elseif battle then
     drawBattleOptions()
   end
 
@@ -111,7 +127,6 @@ function game:draw()
   drawScore()
   drawPlayerBars()
   drawPoints()
-
 
   maid64.finish()
 end

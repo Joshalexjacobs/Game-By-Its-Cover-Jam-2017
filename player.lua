@@ -4,9 +4,10 @@ local player = {
   health = 100,
   healthMAX = 100,
   staminaMAX = 25,
-  stamina = 0,
+  stamina = 20,
   shieldMAX = 10,
   shield = 0,
+  endurance = 2,
   strength = 3,
   attackDie = 6,
   attackMultiplier = 1
@@ -42,7 +43,10 @@ function attack()
 end
 
 function defend()
-  print("defend")
+  player.shield = player.shield + player.endurance
+  if player.shield > player.shieldMAX then player.shield = player.shieldMAX end
+  addPoints(love.math.random(25, 100), 200, player.endurance, {0, 0, 255, 255})
+  player.stamina = 0
 end
 
 function special()

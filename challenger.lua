@@ -110,7 +110,7 @@ function parser(word)
     end
 
     -- increase player Stamina
-    addPoints(count)
+    addPoints(love.math.random(25, 300), 200, count, {0, 255, 0, 255})
     addStamina(count)
 
     if cfIndex == #challengerFile then
@@ -130,11 +130,16 @@ function battleParser(word)
     battle = false
   elseif stripSpaces(word) == "defend" then
     defend()
+    battle = false
   elseif stripSpaces(word) == "special" then
     special()
   end
 
   return ''
+end
+
+function challengerUpdate(dt)
+  curEnemy.update(dt)
 end
 
 function drawCurrentWord()
@@ -160,4 +165,5 @@ end
 
 function drawEnemy()
   curEnemy.draw()
+  curEnemy.drawUI()
 end
