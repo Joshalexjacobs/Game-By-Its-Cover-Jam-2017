@@ -62,6 +62,7 @@ function love.load(arg)
   smallFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 7)
   medFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 8)
   bigFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 16)
+  biggestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 24)
   love.graphics.setFont(bigFont)
 
   Gamestate.registerEvents()

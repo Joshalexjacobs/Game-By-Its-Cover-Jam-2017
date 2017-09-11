@@ -28,8 +28,13 @@ function addWord(attackWord)
 end
 
 function updateWords(dt)
-  for _, word in ipairs(words) do
+  for i, word in ipairs(words) do
     word.y = word.y + (word.speed * dt)
+
+    if word.y >= 185 then
+      table.remove(words, i)
+      damageKeybo()
+    end
   end
 end
 

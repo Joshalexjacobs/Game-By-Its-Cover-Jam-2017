@@ -12,6 +12,7 @@ local keybo = {
 }
 
 local count = 0
+local damage = 0
 
 function loadKeybo()
   dodgebox = maid64.newImage("img/dodge.png")
@@ -46,14 +47,22 @@ function updateKeybo(dt)
   updateWords(dt)
   background.update(dt)
 
-  if count == curEnemy.attackLength then
+  if count == curEnemy.attackLength or getPlayerHealth() <= 0 then
+    setLog(curEnemy.name .. " dealt " .. damage .. " damage!")
     resetTimer(0.0, "spawn", keybo.timers)
     clearWords()
     curEnemy.isAttacking = false
     curEnemy.stamina = 0
     count = 0
+    damage = 0
     dodge = false
   end
+end
+
+function damageKeybo()
+  local curEnemy = getCurrentEnemy()
+  damage = damage + curEnemy.attackDamage
+  damagePlayer(curEnemy.attackDamage)
 end
 
 local function details()

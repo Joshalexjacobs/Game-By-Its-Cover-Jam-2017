@@ -1,8 +1,8 @@
 -- player.lua
 
 local player = {
-  health = 100,
-  healthMAX = 100,
+  health = 2,
+  healthMAX = 50,
   staminaMAX = 25,
   stamina = 20,
   shieldMAX = 7,
@@ -30,6 +30,16 @@ function playerLoad()
   table.insert(battleOptions, "special ") -- 6
 end
 
+function damagePlayer(x)
+  player.health = player.health - x
+  -- screenShake()
+  -- playerHit:play()
+end
+
+function getPlayerHealth()
+  return player.health
+end
+
 function attack(name)
   -- calculate and return damage
   local damage = 0
@@ -39,9 +49,9 @@ function attack(name)
   end
 
   player.stamina = 0
+  -- screenShake()
 
   setLog(name .. " took "..damage.." damage!")
-
   return damage
 end
 

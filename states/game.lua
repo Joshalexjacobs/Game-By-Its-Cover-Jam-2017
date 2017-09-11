@@ -6,6 +6,8 @@ string = ""
 
 battle = false
 dodge = false
+win = false
+loss = false
 
 function game:enter()
   textBox = maid64.newImage("img/textbox.png")
@@ -97,24 +99,41 @@ function game:keypressed(key, code)
 end
 
 function game:update(dt)
-  updatePoints(dt)
   local player = updatePlayer(dt)
-  challengerUpdate(dt)
 
-  if player.stamina >= player.staminaMAX and dodge == false then
-    battle = true
+  if player.health <= 0 then
+    loss = true
+    battle = false
+    dodge = false
   end
-  -- if menuMusic:getVolume() ~= 0 then
-  --   menuMusic:setVolume(menuMusic:getVolume() - dt * 0.25)
-  -- elseif menuMusic:getVolume() == 0 then
-  --   menuMusic:stop()
-  -- end
 
-  -- if chimpMusic:getVolume() ~= 1 then
-  --   chimpMusic:setVolume(chimpMusic:getVolume() + dt * 0.1)
-  -- end
-  if dodge and battle == false then
-    updateKeybo(dt)
+  if getCurrentEnemy().health <= 0 then
+    win = true
+    battle = false
+    dodge = false
+  end
+    updatePoints(dt)
+
+  if win == false and loss == false then
+    challengerUpdate(dt)
+
+    if player.stamina >= player.staminaMAX and dodge == false then
+      battle = true
+    end
+
+    if dodge and battle == false then
+      updateKeybo(dt)
+    end
+
+    -- if menuMusic:getVolume() ~= 0 then
+    --   menuMusic:setVolume(menuMusic:getVolume() - dt * 0.25)
+    -- elseif menuMusic:getVolume() == 0 then
+    --   menuMusic:stop()
+    -- end
+
+    -- if chimpMusic:getVolume() ~= 1 then
+    --   chimpMusic:setVolume(chimpMusic:getVolume() + dt * 0.1)
+    -- end
   end
 end
 
@@ -146,6 +165,16 @@ function game:draw()
   drawScore()
   drawPlayerBars()
   drawPoints()
+
+  if win then
+    love.graphics.setFont(biggestFont)
+    love.graphics.printf("--VICTORY!--", 0, 100, 102*4, "center")
+    love.graphics.setFont(medFont)
+  elseif loss then
+    love.graphics.setFont(biggestFont)
+    love.graphics.printf("--DEFEAT!--", 0, 100, 102*4, "center")
+    love.graphics.setFont(medFont)
+  end
 
   maid64.finish()
 end

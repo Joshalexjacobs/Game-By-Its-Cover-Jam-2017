@@ -2,8 +2,8 @@
 
 local enemy = {
   name = "Howard",
-  healthMAX = 50,
-  health = 50,
+  healthMAX = 25,
+  health = 2,
   staminaMAX = 25,
   stamina = 24.5,
   staminaRate = 1,
@@ -30,6 +30,7 @@ local enemy = {
   attackRate = 1.5,
   attackLength = 5,
   attackSpeed = 40,
+  attackDamage = 2
 }
 
 enemy.load = function()
@@ -86,6 +87,7 @@ enemy.drawUI = function()
 
   local displayHealth = enemy.health / enemy.healthMAX
   if displayHealth > 1 then displayHealth = 1 end
+  if displayHealth < 0 then displayHealth = 0 end
   displayHealth = displayHealth * 74
 
   love.graphics.rectangle("fill", 325, 7.5, displayHealth, 10)
