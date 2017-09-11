@@ -76,7 +76,7 @@ function reloadChallengerFile()
   challengerFile = shuffle(challengerFile)
 end
 
-local function stripSpaces(word)
+function stripSpaces(word)
   return string.lower(string.gsub(word, ' ', ''))
 end
 
@@ -119,6 +119,11 @@ function parser(word)
       cfIndex = cfIndex + 1
     end
     curWord = 1
+
+    if curEnemy.isAttacking then
+      dodge = true
+      setLog("Survive!")
+    end
   end
 
   return ''
@@ -126,7 +131,7 @@ end
 
 function battleParser(word)
   if stripSpaces(word) == "attack" then
-    curEnemy.damage(attack())
+    curEnemy.damage(attack(curEnemy.name))
     battle = false
   elseif stripSpaces(word) == "defend" then
     defend()
@@ -136,6 +141,10 @@ function battleParser(word)
   end
 
   return ''
+end
+
+function getCurrentEnemy()
+  return curEnemy
 end
 
 function challengerUpdate(dt)

@@ -9,11 +9,12 @@ require "lib/maid64"
 require "lib/timer"
 
 require "states/menu"
-
 require "player"
 
 require "challenger"
 require "score"
+
+require "keyboBlaster/keyboMain"
 
 DEBUG = false
 
@@ -22,6 +23,8 @@ NONE = {255, 255, 255, 255}
 CURRENT = {255, 255, 0, 255}
 PASS = {0, 255, 0, 255}
 FAIL = {255, 0, 0, 255}
+
+world = love.physics.newWorld(0, 9.81 * 64, true)
 
 function copy(obj, seen)
   if type(obj) ~= 'table' then return obj end

@@ -30,7 +30,7 @@ function playerLoad()
   table.insert(battleOptions, "special ") -- 6
 end
 
-function attack()
+function attack(name)
   -- calculate and return damage
   local damage = 0
 
@@ -40,7 +40,7 @@ function attack()
 
   player.stamina = 0
 
-  setLog("Howard took "..damage.." damage!")
+  setLog(name .. " took "..damage.." damage!")
 
   return damage
 end

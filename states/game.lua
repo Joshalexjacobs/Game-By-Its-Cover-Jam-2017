@@ -11,6 +11,7 @@ function game:enter()
   textBox = maid64.newImage("img/textbox.png")
   stage = maid64.newImage("img/stage.png")
 
+
   menuMusic:stop()
 
   -- level music
@@ -52,6 +53,7 @@ function game:enter()
 
   playerLoad()
   loadChallengerFile()
+  loadKeybo()
 end
 
 function clickClack()
@@ -63,10 +65,12 @@ end
 function game:textinput(t) -- add user keystrokes to existing input
   if t ~= ' ' then
     string = string .. t
-  elseif t == ' ' and #string > 0 and battle == false then
+  elseif t == ' ' and #string > 0 and battle == false and dodge == false then
     string = parser(string .. t)
-  elseif t == ' ' and #string > 0 and battle then
+  elseif t == ' ' and #string > 0 and battle and dodge == false then
     string = battleParser(string .. t)
+  elseif t == ' ' and #string > 0 and battle == false and dodge then
+    string = dodgeParser(string .. t)
   end
 
   if #string > 20 then
@@ -74,6 +78,8 @@ function game:textinput(t) -- add user keystrokes to existing input
       string = parser(string .. t)
     elseif battle then
       string = battleParser(string .. t)
+    elseif dodge then
+      string = dodgeParser(string .. t)
     end
   end
 
@@ -95,7 +101,7 @@ function game:update(dt)
   local player = updatePlayer(dt)
   challengerUpdate(dt)
 
-  if player.stamina >= player.staminaMAX then
+  if player.stamina >= player.staminaMAX and dodge == false then
     battle = true
   end
   -- if menuMusic:getVolume() ~= 0 then
@@ -107,6 +113,9 @@ function game:update(dt)
   -- if chimpMusic:getVolume() ~= 1 then
   --   chimpMusic:setVolume(chimpMusic:getVolume() + dt * 0.1)
   -- end
+  if dodge and battle == false then
+    updateKeybo(dt)
+  end
 end
 
 function game:draw()
@@ -124,6 +133,10 @@ function game:draw()
     drawCurrentWord()
   elseif battle then
     drawBattleOptions()
+  end
+
+  if dodge then
+    drawKeybo()
   end
 
   drawLog()

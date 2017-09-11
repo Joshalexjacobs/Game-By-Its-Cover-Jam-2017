@@ -5,8 +5,8 @@ local enemy = {
   healthMAX = 50,
   health = 50,
   staminaMAX = 25,
-  stamina = 0,
-  staminaRate = 5,
+  stamina = 24.5,
+  staminaRate = 1,
   timers = {},
   color = {255, 255, 255, 255},
   image = "img/monkey2.png",
@@ -16,7 +16,20 @@ local enemy = {
   damage = nil,
   update = nil,
   draw = nil,
-  drawUI = nil
+  drawUI = nil,
+  -- booleans
+  isAttacking = false,
+  attackWords = {
+    "banana",
+    "rascal",
+    "scamp",
+    "primate",
+    "ape",
+    "monkey",
+  },
+  attackRate = 1.5,
+  attackLength = 5,
+  attackSpeed = 40,
 }
 
 enemy.load = function()
@@ -52,9 +65,10 @@ enemy.update = function(dt)
     enemy.color = NONE
   end
 
-  if enemy.stamina == enemy.staminaMAX then
-    
-  else
+  if enemy.stamina >= enemy.staminaMAX and enemy.isAttacking == false then
+    enemy.isAttacking = true
+    setLog(enemy.name .. " is getting ready to attack!")
+  elseif enemy.isAttacking == false then
     enemy.stamina = enemy.stamina + enemy.staminaRate * dt
   end
 end
