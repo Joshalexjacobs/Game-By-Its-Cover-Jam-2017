@@ -1,7 +1,7 @@
 -- player.lua
 
 local player = {
-  health = 2,
+  health = 50,
   healthMAX = 50,
   staminaMAX = 25,
   stamina = 20,

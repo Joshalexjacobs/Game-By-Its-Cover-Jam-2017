@@ -14,6 +14,8 @@ local challengersFiles = {
 }
 local challengersIndex = 1
 
+local wordBank = {}
+
 local challengerFile = {}
 local cfIndex = 1
 local curWord = 1
@@ -32,48 +34,53 @@ local curEnemy = chimp
 --   }
 -- }
 
-local function shuffle(x)
-  local n = #x -- gets the length of the table
-  while n >= 2 do -- only run if the table has more than 1 element
-    local k = love.math.random(n) -- get a random number
-    x[n], x[k] = x[k], x[n]
-    n = n - 1
+-- local function shuffle(x)
+--   local n = #x -- gets the length of the table
+--   while n >= 2 do -- only run if the table has more than 1 element
+--     local k = love.math.random(n) -- get a random number
+--     x[n], x[k] = x[k], x[n]
+--     n = n - 1
+--   end
+--   return x
+-- end
+
+local function generateLines()
+  challengerFile = {}
+  local lineLength = love.math.random(10, 15)
+  local newLine = {}
+  local tempWordBank = copy(wordBank, tempWordBank)
+
+  for i = 1, 10 do
+    for j = 1, lineLength do
+      local rand = love.math.random(1, #tempWordBank)
+      local newWord = {word = tempWordBank[rand]..' ', color = NONE}
+      table.insert(newLine, newWord)
+      -- table.remove(tempWordBank, rand) -- may be causing a concatenation bug in the line above
+    end
+
+    table.insert(challengerFile, newLine)
+    newLine = {}
+    local tempWordBank = copy(wordBank, tempWordBank)
   end
-  return x
 end
 
 function loadChallengerFile()
   chimp.load()
 
-  -- load the current challenger's text file
-  for line in io.lines(challengersFiles[challengersIndex]) do
-    local newLine = {}
-
-    while(#line > 0) do
-      local newWord = {word = "", color = nil}
-      newWord.word = string.sub(line, 1, string.find(line, ' '))
-      newWord.color = NONE
-
-      line = string.gsub(line, newWord.word, '')
-      table.insert(newLine, newWord)
-    end
-
-    table.insert(challengerFile, newLine)
+  for line in io.lines(challengersFiles[challengersIndex]) do -- load the current wordBank to use
+    table.insert(wordBank, line)
   end
 
-  challengerFile = shuffle(challengerFile)
+  generateLines()
+end
+
+function getWordBank()
+  return wordBank
 end
 
 function reloadChallengerFile()
   cfIndex = 1
-
-  for i, file in ipairs(challengerFile) do
-    for j = 1, #challengerFile[i] do
-      challengerFile[i][j].color = NONE
-    end
-  end
-
-  challengerFile = shuffle(challengerFile)
+  generateLines()
 end
 
 function stripSpaces(word)
@@ -122,7 +129,7 @@ function parser(word)
 
     if curEnemy.isAttacking then
       dodge = true
-      setLog("Survive!")
+      setLog("Type for your life!")
     end
   end
 

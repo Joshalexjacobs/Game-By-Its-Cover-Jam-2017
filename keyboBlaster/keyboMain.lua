@@ -1,7 +1,6 @@
 -- keyboMain.lua
 
 background = require "keyboBlaster/scrollingBG"
--- require "keyboBlaster/bullets"
 require "keyboBlaster/words"
 
 local keybo = {
@@ -12,10 +11,11 @@ local keybo = {
 }
 
 local count = 0
-local damage = 0
+local kbDamage = 0
 
 function loadKeybo()
   dodgebox = maid64.newImage("img/dodge.png")
+  enemyBar = maid64.newImage("img/enemyBar.png")
   keybo.image = maid64.newImage(keybo.image)
 
   background.load()
@@ -26,9 +26,11 @@ end
 
 function dodgeParser(string)
   local words = getWords()
-  for i = 1, #words do
-    if stripSpaces(words[i].text) == stripSpaces(string) then
-      table.remove(words, i)
+  for i = 1, #words do -- for the future, this should be it's own function (eg. checkWord(string))
+    if stripSpaces(words[i].text) == stripSpaces(string) and words[i].isDangerous then
+      -- table.remove(words, i)
+      words[i].isDangerous = false
+      words[i].color = {0, 255, 0, 255}
       count = count + 1
       return ''
     end
@@ -48,33 +50,41 @@ function updateKeybo(dt)
   background.update(dt)
 
   if count == curEnemy.attackLength or getPlayerHealth() <= 0 then
-    setLog(curEnemy.name .. " dealt " .. damage .. " damage!")
+    setLog(curEnemy.name .. " dealt " .. kbDamage .. " damage!")
     resetTimer(0.0, "spawn", keybo.timers)
     clearWords()
     curEnemy.isAttacking = false
     curEnemy.stamina = 0
     count = 0
-    damage = 0
+    kbDamage = 0
     dodge = false
   end
 end
 
 function damageKeybo()
   local curEnemy = getCurrentEnemy()
-  damage = damage + curEnemy.attackDamage
+  kbDamage = kbDamage + curEnemy.attackDamage
+
+  local dmIndex = love.math.random(1, #damage)
+  damage[dmIndex]:setPitch(1 - love.math.random(-1, 1) * 0.1)
+  damage[dmIndex]:play()
+
+  -- screenShake()
+
   damagePlayer(curEnemy.attackDamage)
 end
 
-local function details()
-  -- draws helpful tips
-end
-
 function drawKeybo()
+  local curEnemy = getCurrentEnemy()
   background.draw()
 
   love.graphics.draw(keybo.image, keybo.x, keybo.y, 0, 1, 1, 0, 0)
   drawWords()
   love.graphics.printf(string, 0, 230, 102*4, "center")
+
+  local displayCount = count / curEnemy.attackLength
+  displayCount = displayCount * 196
+  love.graphics.rectangle("fill", 106, 218, displayCount, 2)
 
   love.graphics.draw(dodgebox, 0, 0, 0, 1, 1, 0, 0)
 end

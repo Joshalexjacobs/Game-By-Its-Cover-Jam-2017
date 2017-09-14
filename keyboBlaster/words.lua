@@ -6,6 +6,8 @@ local word ={
   speed = 100,
   text = "",
   length = 0,
+  color = {255, 255, 255, 255},
+  isDangerous = true
 }
 
 local words = {}
@@ -31,9 +33,12 @@ function updateWords(dt)
   for i, word in ipairs(words) do
     word.y = word.y + (word.speed * dt)
 
-    if word.y >= 185 then
-      table.remove(words, i)
+    if word.y >= 185 and word.isDangerous then
+      word.isDangerous = false
+      word.color = {255, 0, 0, 255}
       damageKeybo()
+    elseif word.y >= 300 then
+      table.remove(words, i)
     end
   end
 end
@@ -44,6 +49,7 @@ end
 
 function drawWords()
   for _, word in ipairs(words) do
+    love.graphics.setColor(word.color)
     love.graphics.printf(word.text, word.x, word.y, 300)
   end
 end

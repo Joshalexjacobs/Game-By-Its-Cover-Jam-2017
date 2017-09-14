@@ -36,7 +36,7 @@ function setLog(text)
   newLog = copy(log, newLog)
   newLog.text = text
   newLog.color[4] = 255
-  newLog.y = 50
+  newLog.y = love.math.random(50, 75)
   table.insert(logs, newLog)
 end
 

@@ -1,11 +1,11 @@
 -- typingChimp.lua
-
+-- #AGBIC #indiegames #gamedev #love2d 
 local enemy = {
   name = "Howard",
   healthMAX = 25,
-  health = 2,
+  health = 25,
   staminaMAX = 25,
-  stamina = 24.5,
+  stamina = 0,
   staminaRate = 1,
   timers = {},
   color = {255, 255, 255, 255},
@@ -19,23 +19,18 @@ local enemy = {
   drawUI = nil,
   -- booleans
   isAttacking = false,
-  attackWords = {
-    "banana",
-    "rascal",
-    "scamp",
-    "primate",
-    "ape",
-    "monkey",
-  },
-  attackRate = 1.5,
+  attackWords = {},
+  attackRate = 0.75,
   attackLength = 5,
-  attackSpeed = 40,
+  attackSpeed = 45,
   attackDamage = 2
 }
 
 enemy.load = function()
   enemy.image = maid64.newImage(enemy.image)
   enemy.ui = maid64.newImage(enemy.ui)
+
+  enemy.attackWords = getWordBank()
 
   addTimer(0.0, "isHit", enemy.timers)
   addTimer(0.0, "hitTime", enemy.timers)

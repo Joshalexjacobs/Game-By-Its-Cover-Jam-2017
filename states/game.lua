@@ -117,8 +117,9 @@ function game:update(dt)
   if win == false and loss == false then
     challengerUpdate(dt)
 
-    if player.stamina >= player.staminaMAX and dodge == false then
+    if player.stamina >= player.staminaMAX and dodge == false and battle == false then
       battle = true
+      setLog("Combat phase!")
     end
 
     if dodge and battle == false then
