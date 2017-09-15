@@ -49,7 +49,7 @@ function attack(name)
   end
 
   player.stamina = 0
-  -- screenShake()
+  setShake(0.2, 1.0)
 
   setLog(name .. " took "..damage.." damage!")
   return damage

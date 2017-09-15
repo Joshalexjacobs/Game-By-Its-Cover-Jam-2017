@@ -69,7 +69,8 @@ function damageKeybo()
   damage[dmIndex]:setPitch(1 - love.math.random(-1, 1) * 0.1)
   damage[dmIndex]:play()
 
-  -- screenShake()
+  setShake(0.2, 1.0)
+  addPoints(love.math.random(25, 300), 200, curEnemy.attackDamage, {255, 0, 0, 255})
 
   damagePlayer(curEnemy.attackDamage)
 end

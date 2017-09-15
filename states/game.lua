@@ -112,10 +112,13 @@ function game:update(dt)
     battle = false
     dodge = false
   end
-    updatePoints(dt)
+
+  updatePoints(dt)
+  challengerUpdate(dt)
+  updateCamera(dt)
 
   if win == false and loss == false then
-    challengerUpdate(dt)
+    -- challengerUpdate(dt)
 
     if player.stamina >= player.staminaMAX and dodge == false and battle == false then
       battle = true
@@ -141,6 +144,9 @@ end
 function game:draw()
   maid64.start()
 
+  -- attach camera
+  cam:attach()
+
   -- draw background images
   --love.graphics.draw(stage, 32, 32, 0, 1, 1, 32, 32)
   love.graphics.draw(textBox, 32, 189, 0, 1, 1, 32, 32)
@@ -158,6 +164,9 @@ function game:draw()
   if dodge then
     drawKeybo()
   end
+
+  -- detach camera
+  cam:detach()
 
   drawLog()
 

@@ -7,6 +7,7 @@ Gamestate = require "lib/gamestate"
 anim8 = require "lib/anim8"
 require "lib/maid64"
 require "lib/timer"
+require "cameraControls"
 
 require "states/menu"
 require "player"
@@ -43,6 +44,9 @@ function love.load(arg)
 
   -- seed love.math.rand() using os time
   math.randomseed(os.time())
+
+  -- load camera
+  loadCamera()
 
   -- general sound effects
   menuSelect = love.audio.newSource("sfx/menuSelect.wav", "static")
@@ -91,4 +95,5 @@ end
 function love.resize(w, h)
   -- this is used to resize the screen correctly
   maid64.resize(w, h)
+  loadCamera()
 end

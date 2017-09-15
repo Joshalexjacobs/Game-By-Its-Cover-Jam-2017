@@ -3,9 +3,9 @@
 local enemy = {
   name = "Howard",
   healthMAX = 25,
-  health = 25,
+  health = 10,
   staminaMAX = 25,
-  stamina = 24.5,
+  stamina = 18,
   staminaRate = 1,
   timers = {},
   color = {255, 255, 255, 255},
@@ -22,8 +22,9 @@ local enemy = {
   attackWords = {},
   attackRate = 0.75,
   attackLength = 5,
-  attackSpeed = 45, --45
-  attackDamage = 2
+  attackSpeed = 50, --45
+  attackDamage = 2,
+  isDead = false
 }
 
 enemy.load = function()
@@ -61,11 +62,13 @@ enemy.update = function(dt)
     enemy.color = NONE
   end
 
-  if enemy.stamina >= enemy.staminaMAX and enemy.isAttacking == false then
-    enemy.isAttacking = true
-    setLog(enemy.name .. " is getting ready to attack!")
-  elseif enemy.isAttacking == false then
-    enemy.stamina = enemy.stamina + enemy.staminaRate * dt
+  if enemy.isDead == false then
+    if enemy.stamina >= enemy.staminaMAX and enemy.isAttacking == false then
+      enemy.isAttacking = true
+      setLog(enemy.name .. " is getting ready to attack!")
+    elseif enemy.isAttacking == false then
+      enemy.stamina = enemy.stamina + enemy.staminaRate * dt
+    end
   end
 end
 
