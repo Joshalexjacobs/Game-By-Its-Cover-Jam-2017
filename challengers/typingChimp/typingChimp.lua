@@ -1,11 +1,11 @@
 -- typingChimp.lua
--- #AGBIC #indiegames #gamedev #love2d 
+-- #AGBIC #indiegames #gamedev #love2d
 local enemy = {
   name = "Howard",
   healthMAX = 25,
   health = 25,
   staminaMAX = 25,
-  stamina = 0,
+  stamina = 24.5,
   staminaRate = 1,
   timers = {},
   color = {255, 255, 255, 255},
@@ -22,7 +22,7 @@ local enemy = {
   attackWords = {},
   attackRate = 0.75,
   attackLength = 5,
-  attackSpeed = 45,
+  attackSpeed = 45, --45
   attackDamage = 2
 }
 
