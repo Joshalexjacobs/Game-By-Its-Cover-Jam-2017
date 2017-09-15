@@ -26,8 +26,13 @@ maid64.start = function ()
     end
 maid64.finish = function ()
        love.graphics.setCanvas()
-       --love.graphics.setShader() --used only for special shaders
+
+       if CRT then
+         love.graphics.setShader(crtShader) --used only for special shaders
+       end
+       
        love.graphics.draw(maid64.canvas, maid64.x,maid64.y,0,maid64.scaler,maid64.scaler)
+       love.graphics.setShader() -- reset shader (fixes display issues)
 end
 
 function maid64.resize(w, h)

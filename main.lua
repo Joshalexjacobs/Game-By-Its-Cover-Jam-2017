@@ -18,7 +18,7 @@ require "score"
 require "keyboBlaster/keyboMain"
 
 DEBUG = false
-
+CRT = true
 -- global colors:
 NONE = {255, 255, 255, 255}
 CURRENT = {255, 255, 0, 255}
@@ -37,6 +37,14 @@ function copy(obj, seen)
   return res
 end
 
+--[[ experimental: ]]
+local function loadShader()
+  local crtShaderFile = love.filesystem.read('shaders/CRT-Simple.frag')
+  crtShader = love.graphics.newShader(crtShaderFile)
+  crtShader:send('inputSize', {love.graphics.getWidth(), love.graphics.getHeight()})
+  crtShader:send('outputSize', {love.graphics.getWidth(), love.graphics.getHeight()})
+  crtShader:send('textureSize', {love.graphics.getWidth(), love.graphics.getHeight()})
+end
 
 function love.load(arg)
   love.window.setMode(102*12, 64*12, {resizable=true, vsync=true, minwidth=200, minheight=200}) -- 640 x 427
@@ -47,6 +55,9 @@ function love.load(arg)
 
   -- load camera
   loadCamera()
+
+  -- load shader
+  loadShader()
 
   -- general sound effects
   menuSelect = love.audio.newSource("sfx/menuSelect.wav", "static")
