@@ -19,6 +19,7 @@ require "keyboBlaster/keyboMain"
 
 DEBUG = false
 CRT = true
+
 -- global colors:
 NONE = {255, 255, 255, 255}
 CURRENT = {255, 255, 0, 255}

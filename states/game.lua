@@ -11,7 +11,7 @@ loss = false
 
 function game:enter()
   textBox = maid64.newImage("img/textbox.png")
-  stage = maid64.newImage("img/stage.png")
+  stage = maid64.newImage("img/stage2.png")
 
 
   menuMusic:stop()
@@ -148,7 +148,7 @@ function game:draw()
   cam:attach()
 
   -- draw background images
-  --love.graphics.draw(stage, 32, 32, 0, 1, 1, 32, 32)
+  love.graphics.draw(stage, 32, 32, 0, 1, 1, 32, 32)
   love.graphics.draw(textBox, 32, 189, 0, 1, 1, 32, 32)
 
   drawEnemy()
@@ -178,13 +178,17 @@ function game:draw()
 
   if win then
     love.graphics.setFont(biggestFont)
+    love.graphics.setColor(PASS)
     love.graphics.printf("--VICTORY!--", 0, 100, 102*4, "center")
     love.graphics.setFont(medFont)
   elseif loss then
     love.graphics.setFont(biggestFont)
+    love.graphics.setColor(FAIL)
     love.graphics.printf("--DEFEAT!--", 0, 100, 102*4, "center")
     love.graphics.setFont(medFont)
   end
+  
+  love.graphics.setColor(NONE)
 
   maid64.finish()
 end

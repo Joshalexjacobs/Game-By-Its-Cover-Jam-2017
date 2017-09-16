@@ -2,14 +2,14 @@
 -- #AGBIC #indiegames #gamedev #love2d
 local enemy = {
   name = "Howard",
-  healthMAX = 25,
-  health = 10,
+  healthMAX = 20,
+  health = 1,
   staminaMAX = 25,
-  stamina = 18,
-  staminaRate = 1,
+  stamina = 0,
+  staminaRate = 0.75,
   timers = {},
   color = {255, 255, 255, 255},
-  image = "img/monkey2.png",
+  image = "img/monkey4.png",
   ui = "img/enemyHP.png",
   -- functions
   load = nil,
@@ -75,7 +75,7 @@ end
 enemy.draw = function()
   -- draw enemy
   love.graphics.setColor(enemy.color)
-  love.graphics.draw(enemy.image, 175, 64, 0, 1, 1, 0, 0)
+  love.graphics.draw(enemy.image, 146, 32, 0, 1, 1, 0, 0)
   love.graphics.setColor(NONE)
 end
 
