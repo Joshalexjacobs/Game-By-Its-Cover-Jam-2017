@@ -1,5 +1,10 @@
 --game.lua
 
+-- pre-fight/post-fight screen options:
+-- 1. Next Battle
+-- 2. Level
+-- 3. Quit
+
 game = {}
 
 string = ""
@@ -9,69 +14,33 @@ dodge = false
 win = false
 loss = false
 
-function game:enter()
-  textBox = maid64.newImage("img/textbox.png")
-  stage = maid64.newImage("img/stage2.png")
-
-
-  menuMusic:stop()
-
-  -- level music
-  chimpMusic = love.audio.newSource("music/Venus.wav")
-  -- chimpMusic:setVolume(0)
-  chimpMusic:setLooping(true)
-  chimpMusic:play()
-
-  -- keyboard sfx
-  keyboard = {
-    love.audio.newSource("sfx/keyboard/keyboard1.wav", "static"),
-    love.audio.newSource("sfx/keyboard/keyboard2.wav", "static"),
-    love.audio.newSource("sfx/keyboard/keyboard4.wav", "static"),
-    love.audio.newSource("sfx/keyboard/keyboard5.wav", "static"),
-    love.audio.newSource("sfx/keyboard/keyboard6.wav", "static")
-  }
-
-  for i = 1, #keyboard do
-    keyboard[i]:setVolume(0.35)
-  end
-
-  -- damage sfx
-  damage = {
-    love.audio.newSource("sfx/damage/damage1.wav", "static"),
-    love.audio.newSource("sfx/damage/damage2.wav", "static"),
-    love.audio.newSource("sfx/damage/damage3.wav", "static"),
-    love.audio.newSource("sfx/damage/damage4.wav", "static"),
-    love.audio.newSource("sfx/damage/damage5.wav", "static"),
-    love.audio.newSource("sfx/damage/damage6.wav", "static"),
-    love.audio.newSource("sfx/damage/damage7.wav", "static"),
-  }
-
-  -- defend sfx
-  defendSFX = love.audio.newSource("sfx/defend.wav", "static")
-
-  -- for i = 1, #damage do
-  --   damage[i]:setVolume(0.5)
-  -- end
-
-  playerLoad()
-  loadChallengerFile()
-  loadKeybo()
+function resetGame()
+  -- reset globals
+  battle = false
+  dodge = false
+  win = false
+  loss = false
 end
 
-function clickClack()
-  local kbIndex = love.math.random(1, #keyboard)
-  keyboard[kbIndex]:setPitch(1 - love.math.random(-1, 1) * 0.1)
-  keyboard[kbIndex]:play()
+function game:enter()
+  menuMusic:stop()
+  -- loadKeybo()
+  -- loadWordBank()
+  -- loadWords(getCurrentEnemy())
 end
 
 function game:textinput(t) -- add user keystrokes to existing input
   if t ~= ' ' then
     string = string .. t
-  elseif t == ' ' and #string > 0 and battle == false and dodge == false then
+  elseif t == ' ' and #string > 0 and win then
+    string = winParser(string .. t)
+  elseif t == ' ' and #string > 0 and win == false and loss then
+    string = lossParser(string .. t)
+  elseif t == ' ' and #string > 0 and win == false and loss == false and battle == false and dodge == false then
     string = parser(string .. t)
-  elseif t == ' ' and #string > 0 and battle and dodge == false then
+  elseif t == ' ' and #string > 0 and win == false and loss == false and battle and dodge == false then
     string = battleParser(string .. t)
-  elseif t == ' ' and #string > 0 and battle == false and dodge then
+  elseif t == ' ' and #string > 0 and win == false and loss == false and battle == false and dodge then
     string = dodgeParser(string .. t)
   end
 
@@ -82,6 +51,10 @@ function game:textinput(t) -- add user keystrokes to existing input
       string = battleParser(string .. t)
     elseif dodge then
       string = dodgeParser(string .. t)
+    elseif win then
+      string = winParser(string .. t)
+    -- elseif loss then
+      -- string = lossParser(string .. t)
     end
   end
 
@@ -108,7 +81,10 @@ function game:update(dt)
   end
 
   if getCurrentEnemy().health <= 0 then
-    win = true
+    if win == false then
+      player.skillPoints = player.skillPoints + getCurrentEnemy().reward
+      win = true
+    end
     battle = false
     dodge = false
   end
@@ -149,16 +125,21 @@ function game:draw()
 
   -- draw background images
   love.graphics.draw(stage, 32, 32, 0, 1, 1, 32, 32)
+  love.graphics.draw(overlay, 32, 32, 0, 1, 1, 32, 32)
   love.graphics.draw(textBox, 32, 189, 0, 1, 1, 32, 32)
 
   drawEnemy()
 
   -- draw words to type
   love.graphics.setFont(medFont)
-  if battle == false then
+  if battle == false and win == false and loss == false then
     drawCurrentWord()
-  elseif battle then
+  elseif battle and win == false and loss == false then
     drawBattleOptions()
+  elseif win then
+    drawWinOptions()
+  elseif loss then
+    drawLossOptions()
   end
 
   if dodge then
@@ -187,7 +168,7 @@ function game:draw()
     love.graphics.printf("--DEFEAT!--", 0, 100, 102*4, "center")
     love.graphics.setFont(medFont)
   end
-  
+
   love.graphics.setColor(NONE)
 
   maid64.finish()

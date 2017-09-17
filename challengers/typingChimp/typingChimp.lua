@@ -1,11 +1,11 @@
 -- typingChimp.lua
 -- #AGBIC #indiegames #gamedev #love2d
-local enemy = {
+local chimp = {
   name = "Howard",
   healthMAX = 20,
   health = 1,
   staminaMAX = 25,
-  stamina = 0,
+  stamina = 24,
   staminaRate = 0.75,
   timers = {},
   color = {255, 255, 255, 255},
@@ -24,22 +24,23 @@ local enemy = {
   attackLength = 5,
   attackSpeed = 50, --45
   attackDamage = 2,
-  isDead = false
+  isDead = false,
+  reward = 2, -- skill points awarded to the player after winning
 }
 
-enemy.load = function()
-  enemy.image = maid64.newImage(enemy.image)
-  enemy.ui = maid64.newImage(enemy.ui)
+chimp.load = function()
+  chimp.image = maid64.newImage(chimp.image)
+  chimp.ui = maid64.newImage(chimp.ui)
 
-  enemy.attackWords = getWordBank()
+  chimp.attackWords = getWordBank()
 
-  addTimer(0.0, "isHit", enemy.timers)
-  addTimer(0.0, "hitTime", enemy.timers)
+  addTimer(0.0, "isHit", chimp.timers)
+  addTimer(0.0, "hitTime", chimp.timers)
 end
 
-enemy.damage = function(x)
-  enemy.health = enemy.health - x
-  resetTimer(1.0, "isHit", enemy.timers)
+chimp.damage = function(x)
+  chimp.health = chimp.health - x
+  resetTimer(1.0, "isHit", chimp.timers)
   addPoints(love.math.random(190, 210), 80, x, {255, 255, 0, 255})
 
   local dmIndex = love.math.random(1, #damage)
@@ -47,51 +48,51 @@ enemy.damage = function(x)
   damage[dmIndex]:play()
 end
 
-enemy.update = function(dt)
-  if updateTimer(dt, "isHit", enemy.timers) == false then
-    if updateTimer(dt, "hitTime", enemy.timers) then
-      if enemy.color == NONE then
-        enemy.color = {255, 255, 255, 0}
+chimp.update = function(dt)
+  if updateTimer(dt, "isHit", chimp.timers) == false then
+    if updateTimer(dt, "hitTime", chimp.timers) then
+      if chimp.color == NONE then
+        chimp.color = {255, 255, 255, 0}
       else
-        enemy.color = NONE
+        chimp.color = NONE
       end
 
-      resetTimer(0.05, "hitTime", enemy.timers)
+      resetTimer(0.05, "hitTime", chimp.timers)
     end
   else
-    enemy.color = NONE
+    chimp.color = NONE
   end
 
-  if enemy.isDead == false then
-    if enemy.stamina >= enemy.staminaMAX and enemy.isAttacking == false then
-      enemy.isAttacking = true
-      setLog(enemy.name .. " is getting ready to attack!")
-    elseif enemy.isAttacking == false then
-      enemy.stamina = enemy.stamina + enemy.staminaRate * dt
+  if chimp.isDead == false then
+    if chimp.stamina >= chimp.staminaMAX and chimp.isAttacking == false then
+      chimp.isAttacking = true
+      setLog(chimp.name .. " is getting ready to attack!")
+    elseif chimp.isAttacking == false then
+      chimp.stamina = chimp.stamina + chimp.staminaRate * dt
     end
   end
 end
 
-enemy.draw = function()
-  -- draw enemy
-  love.graphics.setColor(enemy.color)
-  love.graphics.draw(enemy.image, 146, 32, 0, 1, 1, 0, 0)
+chimp.draw = function()
+  -- draw chimp
+  love.graphics.setColor(chimp.color)
+  love.graphics.draw(chimp.image, 146, 32, 0, 1, 1, 0, 0)
   love.graphics.setColor(NONE)
 end
 
-enemy.drawUI = function()
-  -- draw enemy health
+chimp.drawUI = function()
+  -- draw chimp health
   love.graphics.setColor({113, 15, 7, 255})
 
-  local displayHealth = enemy.health / enemy.healthMAX
+  local displayHealth = chimp.health / chimp.healthMAX
   if displayHealth > 1 then displayHealth = 1 end
   if displayHealth < 0 then displayHealth = 0 end
   displayHealth = displayHealth * 74
 
   love.graphics.rectangle("fill", 325, 7.5, displayHealth, 10)
   love.graphics.setColor(NONE)
-  love.graphics.printf(enemy.name, 325, 10, 74, "center")
-  love.graphics.draw(enemy.ui, 324, 5, 0, 1, 1, 0, 0)
+  love.graphics.printf(chimp.name, 325, 10, 74, "center")
+  love.graphics.draw(chimp.ui, 324, 5, 0, 1, 1, 0, 0)
 end
 
-return enemy
+return chimp

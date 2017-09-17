@@ -3,6 +3,15 @@
 --[[ Typer Todd must rise through the ranks to become the TYPING CHAMP ]]
 --[[ Typer Tabby must rise through the ranks to become the TYPING CHAMP ]]
 
+--[[
+TODO:
+- new battle music
+- inbetween music/sfx
+- more enemies
+- allocating skill points
+-
+]]
+
 Gamestate = require "lib/gamestate"
 anim8 = require "lib/anim8"
 require "lib/maid64"
@@ -36,6 +45,12 @@ function copy(obj, seen)
   s[obj] = res
   for k, v in pairs(obj) do res[copy(k, s)] = copy(v, s) end
   return res
+end
+
+function clickClack()
+  local kbIndex = love.math.random(1, #keyboard)
+  keyboard[kbIndex]:setPitch(1 - love.math.random(-1, 1) * 0.1)
+  keyboard[kbIndex]:play()
 end
 
 --[[ experimental: ]]
@@ -73,6 +88,33 @@ function love.load(arg)
   perfectLine = love.audio.newSource("sfx/perfectLine.wav", "static")
   perfectLine:setRolloff(0.01)
 
+  -- keyboard sfx
+  keyboard = {
+    love.audio.newSource("sfx/keyboard/keyboard1.wav", "static"),
+    love.audio.newSource("sfx/keyboard/keyboard2.wav", "static"),
+    love.audio.newSource("sfx/keyboard/keyboard4.wav", "static"),
+    love.audio.newSource("sfx/keyboard/keyboard5.wav", "static"),
+    love.audio.newSource("sfx/keyboard/keyboard6.wav", "static")
+  }
+
+  for i = 1, #keyboard do
+    keyboard[i]:setVolume(0.35)
+  end
+
+  -- damage sfx
+  damage = {
+    love.audio.newSource("sfx/damage/damage1.wav", "static"),
+    love.audio.newSource("sfx/damage/damage2.wav", "static"),
+    love.audio.newSource("sfx/damage/damage3.wav", "static"),
+    love.audio.newSource("sfx/damage/damage4.wav", "static"),
+    love.audio.newSource("sfx/damage/damage5.wav", "static"),
+    love.audio.newSource("sfx/damage/damage6.wav", "static"),
+    love.audio.newSource("sfx/damage/damage7.wav", "static"),
+  }
+
+  -- defend sfx
+  defendSFX = love.audio.newSource("sfx/defend.wav", "static")
+
   -- load fonts
   smallestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 6)
   smallFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 7)
@@ -80,6 +122,21 @@ function love.load(arg)
   bigFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 16)
   biggestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 24)
   love.graphics.setFont(bigFont)
+
+  -- game images
+  textBox = maid64.newImage("img/textbox.png")
+  stage = maid64.newImage("img/stage2.png")
+  overlay = maid64.newImage("img/overlay3.png")
+
+  -- load player
+  playerLoad()
+  calculateStats()
+
+  -- load challenger
+  loadChallengerFile()
+
+  -- load keybo
+  loadKeybo()
 
   Gamestate.registerEvents()
   Gamestate.switch(menu)

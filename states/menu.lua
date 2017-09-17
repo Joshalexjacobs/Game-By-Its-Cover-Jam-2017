@@ -1,6 +1,7 @@
 --menu.lua
 
 require "states/game"
+require "states/inbetween"
 
 menu = {}
 
@@ -19,7 +20,9 @@ function menu:keypressed(key, code)
   -- pressed enter/space
   if key ~= nil then -- quit on escape
     menuSelect:play()
-    Gamestate.switch(game) -- swtich to game screen
+    -- Gamestate.switch(game) -- swtich to game screen
+    Gamestate.switch(inbetween) -- swtich to game screen
+    menuMusic:stop()
   end
 end
 

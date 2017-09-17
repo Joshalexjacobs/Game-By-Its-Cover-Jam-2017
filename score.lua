@@ -10,10 +10,13 @@ local log = {
   y = 50,
   originalY = 50,
   text = "",
-  color = {85, 199, 83, 255}
+  color = {85, 199, 83, 255},
+  speed = 15
 }
 
 local logs = {}
+
+local helpLog = nil
 
 function addScore(x)
   playerScore = playerScore + x
@@ -40,6 +43,19 @@ function setLog(text)
   table.insert(logs, newLog)
 end
 
+function setHelpLog(text, color)
+  newLog = copy(log, newLog)
+  newLog.text = text
+  newLog.color = color
+  newLog.y = 60
+  helpLog = newLog
+  -- table.insert(logs, newLog)
+end
+
+function clearHelpLog()
+  helpLog = nil
+end
+
 function updatePoints(dt)
   for i, point in ipairs(points) do
     point.y = point.y - (dt * 150)
@@ -50,12 +66,16 @@ function updatePoints(dt)
   end
 
   for i, log in ipairs(logs) do
-    log.y = log.y - (dt * 15)
-    log.color[4] = log.color[4] -0.5
+    log.y = log.y - (dt * log.speed)
+    log.color[4] = log.color[4] -0.25
     if log.color[4] <= 0 then
       table.remove(logs, i)
     end
   end
+
+  -- if helpLog ~= nil then
+  --   helpLog.color[4] = helpLog.color[4]
+  -- end
 end
 
 function drawPoints()
@@ -79,4 +99,14 @@ function drawLog()
     love.graphics.printf(log.text, log.x, log.y, 408, "center")
     love.graphics.setColor(NONE)
   end
+end
+
+function drawHelpLog()
+  if helpLog ~= nil then
+    love.graphics.setColor({0, 0, 0, 200})
+    love.graphics.rectangle("fill", 0, 45, 408, 50)
+    love.graphics.setColor(helpLog.color)
+    love.graphics.printf(helpLog.text, helpLog.x, helpLog.y, 408, "center")
+  end
+  love.graphics.setColor(NONE)
 end

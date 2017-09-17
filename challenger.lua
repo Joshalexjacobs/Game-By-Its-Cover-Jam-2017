@@ -1,9 +1,16 @@
 -- challengerLoader
 
-chimp = require "challengers/typingChimp/typingChimp"
+local chimp = require "challengers/typingChimp/typingChimp"
+local darrel = require "challengers/dataDarrel/dataDarrel"
+
+local challengers = {
+  chimp,
+  darrel
+}
 
 local challengersFiles = {
   "challengers/typingChimp/typingChimp.txt", -- typing chimp
+  "challengers/dataDarrel/dataDarrel.txt", -- data darrel
   --[[
   Other Challengers:
   - Data Entry Darrel
@@ -20,7 +27,7 @@ local challengerFile = {}
 local cfIndex = 1
 local curWord = 1
 
-local curEnemy = chimp
+local curEnemy = nil
 
 -- challengerFile diagram:
 -- {
@@ -64,14 +71,21 @@ local function generateLines()
   end
 end
 
-function loadChallengerFile()
-  chimp.load()
-
+function loadWordBank()
   for line in io.lines(challengersFiles[challengersIndex]) do -- load the current wordBank to use
     table.insert(wordBank, line)
   end
-
   generateLines()
+end
+
+function loadChallengerFile()
+  -- chimp.load()
+  for i = 1, #challengers do
+    challengers[i].load()
+  end
+
+  loadWordBank()
+  curEnemy = challengers[challengersIndex]
 end
 
 function getWordBank()
@@ -150,6 +164,27 @@ function battleParser(word)
   return ''
 end
 
+function winParser(word)
+  if stripSpaces(word) == "continue" then
+    -- chimpMusic:stop()
+    resetGame()
+    challengersIndex = challengersIndex + 1
+    curEnemy = challengers[challengersIndex]
+    Gamestate.switch(inbetween)
+  end
+
+  return ''
+end
+
+function lossParser(word)
+  if stripSpaces(word) == "continue" then
+    resetGame()
+    Gamestate.switch(inbetween)
+  end
+
+  return ''
+end
+
 function getCurrentEnemy()
   return curEnemy
 end
@@ -177,6 +212,14 @@ end
 
 function drawBattleOptions()
   love.graphics.printf(getBattleOptions(), 12, 190, 390, "center")
+end
+
+function drawWinOptions()
+  love.graphics.printf("continue ", 12, 190, 390, "center")
+end
+
+function drawLossOptions()
+  love.graphics.printf("continue", 12, 190, 390, "center")
 end
 
 function drawEnemy()

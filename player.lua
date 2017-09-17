@@ -2,15 +2,18 @@
 
 local player = {
   health = 50,
-  healthMAX = 50,
-  staminaMAX = 25,
+  healthMAX = 50, -- (vitality * 2.5)
+  staminaMAX = 25, -- (25 - agility/4)
   stamina = 0,
   shieldMAX = 7,
   shield = 0,
-  endurance = 2,
-  strength = 3,
+  vitality = 5, -- health
+  endurance = 2, -- defense (enemy.damage - endurance / 4)
+  strength = 3, -- attack
+  agility = 5, -- stamina to reach
   attackDie = 6,
-  attackMultiplier = 1
+  attackMultiplier = 1,
+  skillPoints = 1,
 }
 
 local battleOptions = {}
@@ -19,6 +22,11 @@ function playerLoad()
   heart = maid64.newImage("img/heart.png")
   stamina = maid64.newImage("img/stamina.png")
   shield = maid64.newImage("img/shield.png")
+
+  -- set up basic stats
+  player.staminaMAX = 25 - player.agility / 4
+  player.healthMAX = player.vitality * 2.5
+  player.health = player.healthMAX
 
   table.insert(battleOptions, NONE) -- 1
   table.insert(battleOptions, "attack ") -- 2
@@ -30,14 +38,49 @@ function playerLoad()
   table.insert(battleOptions, "special ") -- 6
 end
 
+function calculateStats()
+  player.staminaMAX = 25 - player.agility / 4
+  player.healthMAX = player.vitality * 2.5
+  player.health = player.healthMAX
+end
+
 function damagePlayer(x)
-  player.health = player.health - x
-  -- screenShake()
-  -- playerHit:play()
+  local actualDamage = x - player.endurance / 4
+  player.health = player.health - actualDamage
+
+  return actualDamage
 end
 
 function getPlayerHealth()
   return player.health
+end
+
+function getPlayerStats()
+  local stats = {
+    vitality = player.vitality,
+    endurance = player.endurance,
+    strength = player.strength,
+    agility = player.agility,
+    skillPoints = player.skillPoints,
+    staminaMAX = player.staminaMAX,
+    healthMAX = player.healthMAX
+  }
+
+  return stats
+end
+
+function updatePlayerStats(stats)
+  if player.skillPoints > 0 then
+    player.vitality = stats.vitality
+    player.endurance = stats.endurance
+    player.strength = stats.strength
+    player.agility = stats.agility
+    player.skillPoints = player.skillPoints - 1
+    calculateStats()
+    return true
+  end
+
+  return false
 end
 
 function attack(name)
@@ -90,7 +133,8 @@ end
 function drawPlayerBars()
   -- health:
   local displayHealth = player.health / player.healthMAX
-  if displayHealth > 1 then displayHealth = 1 end
+  if displayHealth > 1 then displayHealth = 1
+  elseif displayHealth < 0 then displayHealth = 0 end
   displayHealth = displayHealth * 36
   love.graphics.draw(heart, 5, 5, 0, 1, 1, 0, 0)
   love.graphics.rectangle("fill", 24, 7.5, displayHealth, 10)

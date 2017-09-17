@@ -36,6 +36,10 @@ background.update = function (dt)
 end
 
 background.draw = function ()
+  love.graphics.setColor({0, 0, 0, 255})
+  love.graphics.rectangle("fill", 102, 32, 204, 192)
+  love.graphics.setColor(NONE)
+
   -- bottom
   love.graphics.draw(background.sprite, background.x1, background.y1)
 
