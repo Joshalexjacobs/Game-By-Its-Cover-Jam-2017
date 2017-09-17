@@ -27,48 +27,64 @@ local function inbetweenParser(text)
   if state == 1 then
     if stripSpaces(text) == 'battle' then
       state = 1
+      correctWord:play()
       Gamestate.switch(game)
     elseif stripSpaces(text) == 'level' then
       state = 2
+      correctWord:play()
       setHelpLog("select a stat to improve!", {255, 255, 255, 255})
     elseif stripSpaces(text) == 'help' then
       setHelpLog("type any stat for a description!", {255, 255, 255, 255})
       state = 3
+      correctWord:play()
     end
   elseif state == 2 then
     if stripSpaces(text) == 'vitality' then
       stats.vitality = stats.vitality + 1
       if updatePlayerStats(stats) then setLog("vitality upgraded!") else setLog("you're out of skill points!") end
+      correctWord:play()
     elseif stripSpaces(text) == 'endurance' then
       stats.endurance = stats.endurance + 1
       if updatePlayerStats(stats) then setLog("endurance upgraded!") else setLog("you're out of skill points!") end
+      correctWord:play()
     elseif stripSpaces(text) == 'strength' then
       stats.strength = stats.strength + 1
       if updatePlayerStats(stats) then setLog("strength upgraded!") else setLog("you're out of skill points!") end
+      correctWord:play()
     elseif stripSpaces(text) == 'agility' then
       stats.agility = stats.agility + 1
       if updatePlayerStats(stats) then setLog("agility upgraded!") else setLog("you're out of skill points!") end
+      correctWord:play()
     elseif stripSpaces(text) == 'done' then
       state = 1
       clearHelpLog()
+      correctWord:play()
     end
   elseif state == 3 then
     if stripSpaces(text) == 'health' then
       setHelpLog("health - your lifeforce, let it drop to 0 and you're out of the tournament!", {255, 255, 255, 255})
+      correctWord:play()
     elseif stripSpaces(text) == 'move' then
       setHelpLog("move - the amount of stamina needed for you to attack. stamina is gained by completing sentences.", {255, 255, 255, 255})
+      correctWord:play()
     elseif stripSpaces(text) == 's-points' then
       setHelpLog({"s-points - points used to level up your stats between battles. you can do this now by selecting the ", {255, 255, 0, 255}, "level ",  {255, 255, 255, 255}, "command on the previous menu. you currently have:", {255, 255, 0, 255}, " " .. stats.skillPoints}, {255, 255, 255, 255})
+        correctWord:play()
     elseif stripSpaces(text) == 'vitality' then
       setHelpLog("vitality - directly impacts your max health. more vitality means more health!", {255, 255, 255, 255})
+      correctWord:play()
     elseif stripSpaces(text) == 'endurance' then
       setHelpLog("endurance - affects how much damage you can negate during an enemy attack. essentially your defense!", {255, 255, 255, 255})
+      correctWord:play()
     elseif stripSpaces(text) == 'strength' then
       setHelpLog("strength - the amount of damage you can dish out when attacking!", {255, 255, 255, 255})
+      correctWord:play()
     elseif stripSpaces(text) == 'agility' then
       setHelpLog("agility - determines how much stamina you need for your next move. the more agility the less stamina you need!", {255, 255, 255, 255})
+      correctWord:play()
     elseif stripSpaces(text) == 'done' then
       state = 1
+      correctWord:play()
       clearHelpLog()
     end
   end
@@ -97,6 +113,22 @@ end
 function inbetween:update(dt)
   updatePoints(dt)
   stats = getPlayerStats()
+
+  if fast:isPlaying() then
+    fast:setVolume(fast:getVolume() - dt * 0.1)
+    if fast:getVolume() <= 0 then
+      fast:stop()
+      fast:setVolume(0.25)
+    end
+  end
+
+  if menuMusic:isPlaying() then
+    menuMusic:setVolume(menuMusic:getVolume() - dt * 0.1)
+    if menuMusic:getVolume() <= 0 then
+      menuMusic:stop()
+      menuMusic:setVolume(1)
+    end
+  end
 end
 
 function inbetween:draw()

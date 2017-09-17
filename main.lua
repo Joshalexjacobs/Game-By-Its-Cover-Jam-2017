@@ -5,11 +5,8 @@
 
 --[[
 TODO:
-- new battle music
-- inbetween music/sfx
-- more enemies
-- allocating skill points
--
+- more enemies (at least 2-4 more)
+- timer on each sentence (set via enemy)
 ]]
 
 Gamestate = require "lib/gamestate"
@@ -114,6 +111,11 @@ function love.load(arg)
 
   -- defend sfx
   defendSFX = love.audio.newSource("sfx/defend.wav", "static")
+
+  -- music
+  fast = love.audio.newSource("music/fast.wav")
+  fast:setLooping(true)
+  fast:setVolume(0.25)
 
   -- load fonts
   smallestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 6)

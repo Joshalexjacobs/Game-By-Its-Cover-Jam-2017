@@ -32,6 +32,7 @@ function dodgeParser(string)
       words[i].isDangerous = false
       words[i].color = {0, 255, 0, 255}
       count = count + 1
+      correctWord:play()
       return ''
     end
   end

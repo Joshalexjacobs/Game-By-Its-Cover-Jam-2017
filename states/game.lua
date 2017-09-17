@@ -24,6 +24,13 @@ end
 
 function game:enter()
   menuMusic:stop()
+
+  fast:setVolume(0.25)
+  fast:rewind()
+  fast:play()
+
+  setLog("Type!")
+
   -- loadKeybo()
   -- loadWordBank()
   -- loadWords(getCurrentEnemy())
