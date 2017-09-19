@@ -5,11 +5,12 @@ local chimp = {
   healthMAX = 20,
   health = 1,
   staminaMAX = 25,
-  stamina = 24,
+  stamina = 0,
   staminaRate = 0.75,
   timers = {},
   color = {255, 255, 255, 255},
   image = "img/monkey4.png",
+  portrait = "img/monkey3.png",
   ui = "img/enemyHP.png",
   -- functions
   load = nil,
@@ -30,6 +31,7 @@ local chimp = {
 
 chimp.load = function()
   chimp.image = maid64.newImage(chimp.image)
+  chimp.portrait = maid64.newImage(chimp.portrait)
   chimp.ui = maid64.newImage(chimp.ui)
 
   chimp.attackWords = getWordBank()

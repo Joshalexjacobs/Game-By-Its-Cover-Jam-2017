@@ -29,6 +29,9 @@ local curWord = 1
 
 local curEnemy = nil
 
+local challengerTimers = {}
+local sentenceTimerMax = 15.0
+
 -- challengerFile diagram:
 -- {
 --   { -- line 1 -- cfIndex = 1
@@ -75,17 +78,19 @@ function loadWordBank()
   for line in io.lines(challengersFiles[challengersIndex]) do -- load the current wordBank to use
     table.insert(wordBank, line)
   end
+
   generateLines()
 end
 
 function loadChallengerFile()
-  -- chimp.load()
   for i = 1, #challengers do
     challengers[i].load()
   end
 
   loadWordBank()
   curEnemy = challengers[challengersIndex]
+
+  addTimer(0.0, "sentenceTimer", challengerTimers)
 end
 
 function getWordBank()
@@ -99,6 +104,41 @@ end
 
 function stripSpaces(word)
   return string.lower(string.gsub(word, ' ', ''))
+end
+
+function nextLine()
+  local count = 0
+
+  for i, file in ipairs(challengerFile[cfIndex]) do
+    if file.color == PASS then
+      count = count + 1
+    end
+  end
+
+  if #challengerFile[cfIndex] == count then
+    count = count + 2
+    perfectLine:play()
+  else
+    endOfLine:play()
+  end
+
+  -- increase player Stamina
+  addPoints(love.math.random(25, 300), 200, count, {0, 255, 0, 255})
+  addStamina(count)
+
+  if cfIndex == #challengerFile then
+    reloadChallengerFile()
+  else
+    cfIndex = cfIndex + 1
+  end
+  curWord = 1
+
+  if curEnemy.isAttacking then
+    dodge = true
+    setLog("Type for your life!")
+  end
+
+  resetTimer(sentenceTimerMax, "sentenceTimer", challengerTimers)
 end
 
 function parser(word)
@@ -115,36 +155,39 @@ function parser(word)
   curWord = curWord + 1
 
   if curWord > #challengerFile[cfIndex] then
-    local count = 0
-
-    for i, file in ipairs(challengerFile[cfIndex]) do
-      if file.color == PASS then
-        count = count + 1
-      end
-    end
-
-    if #challengerFile[cfIndex] == count then
-      count = count + 2
-      perfectLine:play()
-    else
-      endOfLine:play()
-    end
-
-    -- increase player Stamina
-    addPoints(love.math.random(25, 300), 200, count, {0, 255, 0, 255})
-    addStamina(count)
-
-    if cfIndex == #challengerFile then
-      reloadChallengerFile()
-    else
-      cfIndex = cfIndex + 1
-    end
-    curWord = 1
-
-    if curEnemy.isAttacking then
-      dodge = true
-      setLog("Type for your life!")
-    end
+    nextLine()
+    -- local count = 0
+    --
+    -- for i, file in ipairs(challengerFile[cfIndex]) do
+    --   if file.color == PASS then
+    --     count = count + 1
+    --   end
+    -- end
+    --
+    -- if #challengerFile[cfIndex] == count then
+    --   count = count + 2
+    --   perfectLine:play()
+    -- else
+    --   endOfLine:play()
+    -- end
+    --
+    -- -- increase player Stamina
+    -- addPoints(love.math.random(25, 300), 200, count, {0, 255, 0, 255})
+    -- addStamina(count)
+    --
+    -- if cfIndex == #challengerFile then
+    --   reloadChallengerFile()
+    -- else
+    --   cfIndex = cfIndex + 1
+    -- end
+    -- curWord = 1
+    --
+    -- if curEnemy.isAttacking then
+    --   dodge = true
+    --   setLog("Type for your life!")
+    -- end
+    --
+    -- resetTimer(sentenceTimerMax, "sentenceTimer", challengerTimers)
   end
 
   return ''
@@ -191,6 +234,10 @@ end
 
 function challengerUpdate(dt)
   curEnemy.update(dt)
+
+  if battle == false and dodge == false and updateTimer(dt, "sentenceTimer", challengerTimers) then
+    nextLine()
+  end
 end
 
 function drawCurrentWord()
@@ -207,6 +254,15 @@ function drawCurrentWord()
   end
 
   love.graphics.printf(coloredText, 12, 190, 390, "center")
+  love.graphics.setColor(NONE)
+
+  local time = math.floor(getTimerTime("sentenceTimer", challengerTimers) + 0.5)
+
+  if time < sentenceTimerMax / 3 then
+    love.graphics.setColor( {255, 255, 0, 255} )
+  end
+
+  love.graphics.printf(time, 0, 180, 390, "right")
   love.graphics.setColor(NONE)
 end
 

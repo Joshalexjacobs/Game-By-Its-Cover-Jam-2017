@@ -133,13 +133,17 @@ end
 
 function inbetween:draw()
   maid64.start()
+
+  love.graphics.draw(theTyper, 36, 30, 0, 1, 1, 0, 0)
+  love.graphics.draw(getCurrentEnemy().portrait, 290, 30, 0, 1, 1, 0, 0)
+
   love.graphics.draw(inbetweenBG, 0, 0, 0, 1, 1, 0, 0)
   love.graphics.draw(textBox, 32, 189, 0, 1, 1, 32, 32)
 
   love.graphics.setFont(medFont)
   -- love.graphics.printf("next battle", 0, 10, 408, "center")
   love.graphics.printf("you", 32, 27, 80, "center")
-  love.graphics.printf("howard", 297, 27, 80, "center")
+  love.graphics.printf(getCurrentEnemy().name, 297, 27, 80, "center")
 
   -- draw player stats
   love.graphics.printf("health:   " .. stats.healthMAX, 22, 120, 300, "left")

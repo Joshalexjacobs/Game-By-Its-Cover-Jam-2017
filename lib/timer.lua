@@ -66,6 +66,20 @@ function getTimerStatus(name, timerList) -- see if this timer has finished or no
   end
 end
 
+function getTimerTime(name, timerList) -- see if this timer has finished or not (no update)
+  if #timerList <= 0 then return false end
+
+  index = findTimer(name, timerList)
+
+  if index == 0 then return false end
+
+  if timerList[index].time ~= nil then
+    return timerList[index].time
+  else
+    return nil
+  end
+end
+
 function deleteTimer(name, timerList)
   table.remove(timerList, findTimer(name, timerList))
 end

@@ -10,6 +10,7 @@ local enemy = {
   timers = {},
   color = {255, 255, 255, 255},
   image = "img/monkey2.png",
+  portrait = "img/monkey2.png",
   ui = "img/enemyHP.png",
   -- functions
   load = nil,
@@ -30,6 +31,7 @@ local enemy = {
 
 enemy.load = function()
   enemy.image = maid64.newImage(enemy.image)
+  enemy.portrait = maid64.newImage(enemy.portrait)
   enemy.ui = maid64.newImage(enemy.ui)
 
   enemy.attackWords = getWordBank()

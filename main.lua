@@ -129,6 +129,7 @@ function love.load(arg)
   textBox = maid64.newImage("img/textbox.png")
   stage = maid64.newImage("img/stage2.png")
   overlay = maid64.newImage("img/overlay3.png")
+  theTyper = maid64.newImage("img/theTyper.png")
 
   -- load player
   playerLoad()
