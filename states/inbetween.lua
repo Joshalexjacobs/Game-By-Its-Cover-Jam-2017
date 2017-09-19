@@ -111,6 +111,12 @@ function inbetween:keypressed(key, code)
 end
 
 function inbetween:update(dt)
+  if stats.skillPoints > 0 then
+    states[1] = {"battle ", {0, 255, 0, 255}, "level ", {255, 255, 255, 255}, "help "}
+  else
+    states[1] = {"battle ", "level ", "help "}
+  end
+
   updatePoints(dt)
   stats = getPlayerStats()
 
@@ -154,6 +160,9 @@ function inbetween:draw()
   love.graphics.printf("endurance: " .. stats.endurance, 155, 130, 300, "left")
   love.graphics.printf("strength:  " .. stats.strength, 155, 140, 300, "left")
   love.graphics.printf("agility:   " .. stats.agility, 155, 150, 300, "left")
+
+  love.graphics.printf("AKA:", 297, 120, 80, "center")
+  love.graphics.printf(getCurrentEnemy().aka, 297, 130, 80, "center")
 
   love.graphics.printf(string, 0, 230, 102*4, "center")
   love.graphics.printf(states[state], 12, 190, 390, "center")

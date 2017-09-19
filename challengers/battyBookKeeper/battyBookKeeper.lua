@@ -1,8 +1,8 @@
 -- typingChimp.lua
 -- #AGBIC #indiegames #gamedev #love2d
 local enemy = {
-  name = "Darrel",
-  aka = "Data Entry Darrel",
+  name = "Batty",
+  aka = "Batty Book Keeper",
   sentenceTime = 14,
   healthMAX = 22,
   health = 22,
@@ -28,7 +28,7 @@ local enemy = {
   attackSpeed = 50, --45
   attackDamage = 2,
   isDead = false,
-  reward = 1, -- skill points awarded to the player after winning
+  reward = 2, -- skill points awarded to the player after winning
 }
 
 enemy.load = function()

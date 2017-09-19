@@ -40,6 +40,7 @@ end
 
 function calculateStats()
   player.staminaMAX = 25 - player.agility / 4
+  player.stamina = 0
   player.healthMAX = player.vitality * 2.5
   player.health = player.healthMAX
 end

@@ -2,15 +2,18 @@
 
 local chimp = require "challengers/typingChimp/typingChimp"
 local darrel = require "challengers/dataDarrel/dataDarrel"
+local batty = require "challengers/battyBookKeeper/battyBookKeeper"
 
 local challengers = {
   chimp,
-  darrel
+  darrel,
+  batty
 }
 
 local challengersFiles = {
   "challengers/typingChimp/typingChimp.txt", -- typing chimp
   "challengers/dataDarrel/dataDarrel.txt", -- data darrel
+  "challengers/battyBookKeeper/battyBookKeeper.txt", -- data darrel
   --[[
   Other Challengers:
   - Data Entry Darrel
@@ -138,7 +141,7 @@ function nextLine()
     setLog("Type for your life!")
   end
 
-  resetTimer(sentenceTimerMax, "sentenceTimer", challengerTimers)
+  resetTimer(curEnemy.sentenceTime, "sentenceTimer", challengerTimers)
 end
 
 function parser(word)
@@ -258,7 +261,7 @@ function drawCurrentWord()
 
   local time = math.floor(getTimerTime("sentenceTimer", challengerTimers) + 0.5)
 
-  if time < sentenceTimerMax / 3 then
+  if time <= curEnemy.sentenceTime / 3 + 0.9 then
     love.graphics.setColor( {255, 255, 0, 255} )
   end
 

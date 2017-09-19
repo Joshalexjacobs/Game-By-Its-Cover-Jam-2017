@@ -20,6 +20,7 @@ function resetGame()
   dodge = false
   win = false
   loss = false
+  calculateStats()
 end
 
 function game:enter()

@@ -2,10 +2,12 @@
 -- #AGBIC #indiegames #gamedev #love2d
 local chimp = {
   name = "Howard",
+  aka = "The Typing Chimp",
+  sentenceTime = 15,
   healthMAX = 20,
   health = 1,
   staminaMAX = 25,
-  stamina = 0,
+  stamina = 24,
   staminaRate = 0.75,
   timers = {},
   color = {255, 255, 255, 255},
@@ -26,7 +28,7 @@ local chimp = {
   attackSpeed = 50, --45
   attackDamage = 2,
   isDead = false,
-  reward = 2, -- skill points awarded to the player after winning
+  reward = 1, -- skill points awarded to the player after winning
 }
 
 chimp.load = function()
