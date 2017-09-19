@@ -9,8 +9,8 @@ local enemy = {
   staminaRate = 0.75,
   timers = {},
   color = {255, 255, 255, 255},
-  image = "img/monkey2.png",
-  portrait = "img/monkey2.png",
+  image = "img/monkey2.png", -- 164 x 128
+  portrait = "img/monkey2.png", -- 72 x 72
   ui = "img/enemyHP.png",
   -- functions
   load = nil,
@@ -78,7 +78,7 @@ end
 enemy.draw = function()
   -- draw enemy
   love.graphics.setColor(enemy.color)
-  love.graphics.draw(enemy.image, 146, 32, 0, 1, 1, 0, 0)
+  love.graphics.draw(enemy.image, 140, 0, 0, 1, 1, 0, 0) -- image is 164 x 128
   love.graphics.setColor(NONE)
 end
 

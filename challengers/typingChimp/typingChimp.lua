@@ -9,8 +9,8 @@ local chimp = {
   staminaRate = 0.75,
   timers = {},
   color = {255, 255, 255, 255},
-  image = "img/monkey4.png",
-  portrait = "img/monkey3.png",
+  image = "img/newmonkey.png",
+  portrait = "img/monkeyPortrait.png",
   ui = "img/enemyHP.png",
   -- functions
   load = nil,
@@ -78,7 +78,7 @@ end
 chimp.draw = function()
   -- draw chimp
   love.graphics.setColor(chimp.color)
-  love.graphics.draw(chimp.image, 146, 32, 0, 1, 1, 0, 0)
+  love.graphics.draw(chimp.image, 140, 0, 0, 1, 1, 0, 0)
   love.graphics.setColor(NONE)
 end
 

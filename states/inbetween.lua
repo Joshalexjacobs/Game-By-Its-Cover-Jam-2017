@@ -135,7 +135,7 @@ function inbetween:draw()
   maid64.start()
 
   love.graphics.draw(theTyper, 36, 30, 0, 1, 1, 0, 0)
-  love.graphics.draw(getCurrentEnemy().portrait, 290, 30, 0, 1, 1, 0, 0)
+  love.graphics.draw(getCurrentEnemy().portrait, 300, 36, 0, 1, 1, 0, 0)
 
   love.graphics.draw(inbetweenBG, 0, 0, 0, 1, 1, 0, 0)
   love.graphics.draw(textBox, 32, 189, 0, 1, 1, 32, 32)
