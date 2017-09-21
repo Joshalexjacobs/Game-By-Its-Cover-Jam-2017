@@ -154,3 +154,13 @@ cocktail
 burn
 flag
 anarchy
+carnage
+destroy
+damage
+destruction
+engulf
+flame
+burn
+raze
+march
+charge

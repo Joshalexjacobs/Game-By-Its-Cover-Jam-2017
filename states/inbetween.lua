@@ -4,13 +4,29 @@ inbetween = {}
 
 require "states/game"
 
+local curSpecial = {
+  {0, 255, 0, 255},
+  {255, 255, 255, 255},
+  {255, 255, 255, 255}
+}
+
 local states = {
-  {"battle ", "level ", "help "},
+  {"battle ", "level ", "special ", "help "},
   {"vitality ", "endurance ", "strength ", "agility ", {255, 255, 0, 255}, "done "},
-  {"health ", "move ", "s-points ", "vitality ", "endurance ", "strength ", "agility ", {255, 255, 0, 255}, "done "},
+  {"health ", "move ", "s-points ", "vitality ", "endurance ", "strength ", "agility ", "special ", {255, 255, 0, 255}, "done "},
+  {curSpecial[1], "heal ", curSpecial[2], "attack ", curSpecial[3], "done "}
 }
 
 local state = 1
+
+local function resetCurSpecial(x)
+  for i = 1, #curSpecial do
+    curSpecial[i] = {255, 255, 255, 255}
+  end
+
+  curSpecial[x] = {0, 255, 0, 255}
+  states[4] = {curSpecial[1], "heal ", curSpecial[2], "attack ", curSpecial[3], "done "}
+end
 
 local stats = {}
 
@@ -36,6 +52,10 @@ local function inbetweenParser(text)
     elseif stripSpaces(text) == 'help' then
       setHelpLog("type any stat for a description!", {255, 255, 255, 255})
       state = 3
+      correctWord:play()
+    elseif stripSpaces(text) == 'special' then
+      setHelpLog("select a special ability!", {255, 255, 255, 255})
+      state = 4
       correctWord:play()
     end
   elseif state == 2 then
@@ -65,7 +85,7 @@ local function inbetweenParser(text)
       setHelpLog("health - your lifeforce, let it drop to 0 and you're out of the tournament!", {255, 255, 255, 255})
       correctWord:play()
     elseif stripSpaces(text) == 'move' then
-      setHelpLog("move - the amount of stamina needed for you to attack. stamina is gained by completing sentences.", {255, 255, 255, 255})
+      setHelpLog("move - the number of words required for your next move. stamina is only added when a sentence is complete.", {255, 255, 255, 255})
       correctWord:play()
     elseif stripSpaces(text) == 's-points' then
       setHelpLog({"s-points - points used to level up your stats between battles. you can do this now by selecting the ", {255, 255, 0, 255}, "level ",  {255, 255, 255, 255}, "command on the previous menu. you currently have:", {255, 255, 0, 255}, " " .. stats.skillPoints}, {255, 255, 255, 255})
@@ -82,6 +102,29 @@ local function inbetweenParser(text)
     elseif stripSpaces(text) == 'agility' then
       setHelpLog("agility - determines how much stamina you need for your next move. the more agility the less stamina you need!", {255, 255, 255, 255})
       correctWord:play()
+    elseif stripSpaces(text) == 'special' then
+      setHelpLog("special - excess correct words will slowly power up your special bar allowing you to perform special moves without the cost of stamina! this transfers between fights so feel free to save it!", {255, 255, 255, 255})
+      correctWord:play()
+    elseif stripSpaces(text) == 'done' then
+      state = 1
+      correctWord:play()
+      clearHelpLog()
+    end
+  elseif state == 4 then
+    if stripSpaces(text) == 'heal' then
+      setHelpLog("heal - heals the player for 5 health.", {255, 255, 255, 255})
+      correctWord:play()
+
+      resetCurSpecial(1)
+
+      -- set player special
+    elseif stripSpaces(text) == 'attack' then
+      setHelpLog("attack - performs an extra attack without the cost of stamina.", {255, 255, 255, 255})
+      correctWord:play()
+
+      resetCurSpecial(2)
+
+      -- set player special
     elseif stripSpaces(text) == 'done' then
       state = 1
       correctWord:play()
@@ -112,9 +155,9 @@ end
 
 function inbetween:update(dt)
   if stats.skillPoints > 0 then
-    states[1] = {"battle ", {0, 255, 0, 255}, "level ", {255, 255, 255, 255}, "help "}
+    states[1] = {"battle ", {0, 255, 0, 255}, "level ", {255, 255, 255, 255}, "special ", "help "}
   else
-    states[1] = {"battle ", "level ", "help "}
+    states[1] = {"battle ", "level ", "special ", "help "}
   end
 
   updatePoints(dt)

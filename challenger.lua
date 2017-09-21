@@ -22,7 +22,7 @@ local challengersFiles = {
   - Queen QWERTY
   ]]
 }
-local challengersIndex = 3
+local challengersIndex = 1
 
 local wordBank = {}
 

@@ -43,6 +43,14 @@ function setLog(text)
   table.insert(logs, newLog)
 end
 
+function setLogY(text, y)
+  newLog = copy(log, newLog)
+  newLog.text = text
+  newLog.color[4] = 255
+  newLog.y = y
+  table.insert(logs, newLog)
+end
+
 function setHelpLog(text, color)
   newLog = copy(log, newLog)
   newLog.text = text

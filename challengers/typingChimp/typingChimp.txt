@@ -154,3 +154,8 @@ human
 inferior
 thumbs
 tail
+fling
+throw
+toss
+catapult
+but

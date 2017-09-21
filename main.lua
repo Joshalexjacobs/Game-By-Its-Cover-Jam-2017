@@ -17,7 +17,6 @@ require "cameraControls"
 
 require "states/menu"
 require "player"
-
 require "challenger"
 require "score"
 
