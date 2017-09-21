@@ -3,9 +3,9 @@
 local enemy = {
   name = "Darrel",
   aka = "Data Entry Darrel",
-  sentenceTime = 14,
-  healthMAX = 22,
-  health = 22,
+  sentenceTime = 15,
+  healthMAX = 25,
+  health = 25,
   staminaMAX = 25,
   stamina = 0,
   staminaRate = 0.9,
@@ -23,10 +23,10 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = 0.75,
-  attackLength = 5,
-  attackSpeed = 50, --45
-  attackDamage = 2,
+  attackRate = 0.9,
+  attackLength = 6,
+  attackSpeed = 55, --45
+  attackDamage = 2.5,
   isDead = false,
   reward = 1, -- skill points awarded to the player after winning
 }

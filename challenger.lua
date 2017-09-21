@@ -2,18 +2,18 @@
 
 local chimp = require "challengers/typingChimp/typingChimp"
 local darrel = require "challengers/dataDarrel/dataDarrel"
-local batty = require "challengers/battyBookKeeper/battyBookKeeper"
+local betty = require "challengers/bettyBookKeeper/bettyBookKeeper"
 
 local challengers = {
   chimp,
   darrel,
-  batty
+  betty
 }
 
 local challengersFiles = {
   "challengers/typingChimp/typingChimp.txt", -- typing chimp
   "challengers/dataDarrel/dataDarrel.txt", -- data darrel
-  "challengers/battyBookKeeper/battyBookKeeper.txt", -- data darrel
+  "challengers/bettyBookKeeper/bettyBookKeeper.txt", -- data darrel
   --[[
   Other Challengers:
   - Data Entry Darrel
@@ -22,7 +22,7 @@ local challengersFiles = {
   - Queen QWERTY
   ]]
 }
-local challengersIndex = 1
+local challengersIndex = 3
 
 local wordBank = {}
 

@@ -1,18 +1,18 @@
 -- typingChimp.lua
 -- #AGBIC #indiegames #gamedev #love2d
 local enemy = {
-  name = "Batty",
-  aka = "Batty Book Keeper",
+  name = "Betty",
+  aka = "Betty Book Keeper",
   sentenceTime = 14,
-  healthMAX = 22,
-  health = 22,
+  healthMAX = 30,
+  health = 30,
   staminaMAX = 25,
   stamina = 0,
-  staminaRate = 0.9,
+  staminaRate = 1.0,
   timers = {},
   color = {255, 255, 255, 255},
-  image = "img/dataDarrel.png", -- 164 x 128
-  portrait = "img/dataDarrelP.png", -- 72 x 72
+  image = "img/betty.png", -- 164 x 128
+  portrait = "img/bettyP.png", -- 72 x 72
   ui = "img/enemyHP.png",
   -- functions
   load = nil,
@@ -23,10 +23,10 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = 0.75,
-  attackLength = 5,
-  attackSpeed = 50, --45
-  attackDamage = 2,
+  attackRate = .75,
+  attackLength = 7,
+  attackSpeed = 60, --45
+  attackDamage = 3,
   isDead = false,
   reward = 2, -- skill points awarded to the player after winning
 }
