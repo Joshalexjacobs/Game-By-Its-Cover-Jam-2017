@@ -119,10 +119,19 @@ function nextLine()
   end
 
   if #challengerFile[cfIndex] == count then
-    count = count + 2
+    count = count + 1
     perfectLine:play()
+
+    if getPlayer().curSpecial == getSpecials().perfect then
+      getPlayer().curSpecial(getPlayer())
+    end
+
   else
     endOfLine:play()
+  end
+
+  if getPlayer().curSpecial == getSpecials().stamina then
+    count = getPlayer().curSpecial(getPlayer(), count)
   end
 
   -- increase player Stamina

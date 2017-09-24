@@ -5,8 +5,8 @@ local player = {
   healthMAX = 50, -- (vitality * 2.5)
   staminaMAX = 25, -- (25 - agility/4)
   stamina = 0,
-  specialMAX = 35, -- repurposed for special ability
-  shield = 30,
+  specialMAX = 35,
+  shield = 30, -- repurposed for special ability
   vitality = 5, -- health
   endurance = 2, -- defense (enemy.damage - endurance / 4)
   strength = 3, -- attack
@@ -16,13 +16,6 @@ local player = {
   skillPoints = 1,
   curSpecial = nil
 }
-
---[[ SHOULD BE MOVED TO ITS OWN FILE AT SOME POINT ]]
-function specialHeal(player)
-  player.health = player.healthMAX
-  perfectLine:play()
-  setLog("Player healed for 5 health!")
-end
 
 local battleOptions = {}
 
@@ -34,7 +27,9 @@ function calculateStats()
 end
 
 function playerLoad()
-  player.curSpecial = specialHeal --[[ NEEDS TO BE SET IN INBETWEEN NOT HERE ]]
+  -- set special
+  player.curSpecial = getSpecials().heal
+
 
   heart = maid64.newImage("img/heart.png")
   stamina = maid64.newImage("img/stamina.png")
@@ -62,6 +57,10 @@ end
 --   player.healthMAX = player.vitality * 2.5
 --   player.health = player.healthMAX
 -- end
+
+function setPlayerSpecial(special)
+  player.curSpecial = special
+end
 
 function damagePlayer(x)
   local actualDamage = x - player.endurance / 4
@@ -132,6 +131,8 @@ end
 function special()
   if battleOptions[5] == FAIL then
     setLog("Your special is not ready yet!")
+  elseif player.curSpecial == getSpecials().perfect or player.curSpecial == getSpecials().gains or player.curSpecial == getSpecials().stamina then
+    setLog("Your current special is a passive ability!")
   else
     player.shield = 0
     -- curSpecial()
@@ -146,13 +147,18 @@ function addStamina(x)
   if newStam > player.staminaMAX then
     newStam = newStam - player.staminaMAX
     player.shield = player.shield + newStam
-    setLogY(newStam .. " points added to special meter!", 85)
+    -- setLogY(newStam .. " points added to special meter!", 85)
+    setLog(newStam .. " points added to special meter!")
 
     if player.shield >= player.specialMAX then
       battleOptions[5] = PASS
     end
   end
   player.stamina = player.stamina + x
+end
+
+function getPlayer()
+  return player
 end
 
 function getBattleOptions()

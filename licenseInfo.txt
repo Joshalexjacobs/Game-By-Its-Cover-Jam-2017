@@ -5,8 +5,10 @@ fonts:
 
 music:
   - https://opengameart.org/content/nes-shooter-music-5-tracks-3-jingles
+  - https://opengameart.org/content/fast-level-loop-8-bit-chiptune
 
 sfx:
   - https://opengameart.org/content/512-sound-effects-8-bit-style
 
 THANK YOU TO EVERYONE THAT HELPED MAKE T Y P I N G  C H A M P POSSIBLE!!!
+ALSO THANK YOU TO EVERYONE THAT MAKES A GAME BY ITS COVER JAM POSSIBLE, WE LOVE YOU!!!

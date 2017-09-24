@@ -15,8 +15,14 @@ local log = {
 }
 
 local logs = {}
+local logsQueue = {}
+local logsTimers = {}
 
 local helpLog = nil
+
+function loadLogs()
+  addTimer(0.0, "nextLog", logsTimers)
+end
 
 function addScore(x)
   playerScore = playerScore + x
@@ -39,8 +45,9 @@ function setLog(text)
   newLog = copy(log, newLog)
   newLog.text = text
   newLog.color[4] = 255
-  newLog.y = love.math.random(50, 75)
-  table.insert(logs, newLog)
+  newLog.y = 65 -- love.math.random(50, 75)
+  -- table.insert(logs, newLog)
+  table.insert(logsQueue, newLog)
 end
 
 function setLogY(text, y)
@@ -48,7 +55,8 @@ function setLogY(text, y)
   newLog.text = text
   newLog.color[4] = 255
   newLog.y = y
-  table.insert(logs, newLog)
+  -- table.insert(logs, newLog)
+  table.insert(logsQueue, newLog)
 end
 
 function setHelpLog(text, color)
@@ -79,6 +87,13 @@ function updatePoints(dt)
     if log.color[4] <= 0 then
       table.remove(logs, i)
     end
+  end
+
+  if updateTimer(dt, "nextLog", logsTimers) then
+    -- add log from queue to logs
+    table.insert(logs, logsQueue[1])
+    table.remove(logsQueue, 1)
+    resetTimer(0.5, "nextLog", logsTimers)
   end
 
   -- if helpLog ~= nil then

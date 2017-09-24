@@ -5,8 +5,22 @@
 
 --[[
 TODO:
-- more enemies (at least 2-4 more)
-- timer on each sentence (set via enemy)
+1. Make attacking a little mini game where you have to type a hard word and get to deal
+  bonus damage based on how many letters you get correct (timed) (bonus damage is % of
+  correct letters of overall strength eg 5 / 10 letters == 50% if strength is 6, deal 3 damage)
+2. Categorize easy, medium, and hard words into 3 separate files. Challengers will pick a few
+  from each pool. Maybe even a 4th expert words file?
+3. Normal and Expert difficulties
+4. Remaining 2 enemies, Queen QWERTY (boss) and Stanley The Stenographer
+5. Figure out a way to make the combat more enjoyable. Maybe make the specials stronger or add
+  abilities that cost a stamina turn, but do other things:
+  - freeze: deals 3 damage and slows down the opponents stamina gain for 30 seconds
+  - Poison: deals 0.25 - 0.5? damage per correct word for the next sentence
+  - Potion: heals 0.25 - 0.5 health per correct word for the next sentence
+  - Slow: slows down the enemies next attack significantly (X%)
+  - Easy: the next 2 sentences are all easy words
+  - Hard: deals 1 damage per correct word for the next sentence, but all words are hard
+  - Double: your next attack deals double damage
 ]]
 
 Gamestate = require "lib/gamestate"
@@ -16,6 +30,7 @@ require "lib/timer"
 require "cameraControls"
 
 require "states/menu"
+require "specials"
 require "player"
 require "challenger"
 require "score"
@@ -70,6 +85,9 @@ function love.load(arg)
 
   -- load shader
   loadShader()
+
+  -- set master volume
+  love.audio.setVolume(0.25)
 
   -- general sound effects
   menuSelect = love.audio.newSource("sfx/menuSelect.wav", "static")
@@ -133,6 +151,9 @@ function love.load(arg)
   -- load player
   playerLoad()
   calculateStats()
+
+  -- logs and score load
+  loadLogs()
 
   -- load challenger
   loadChallengerFile()

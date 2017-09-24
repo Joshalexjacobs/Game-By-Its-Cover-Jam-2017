@@ -33,6 +33,11 @@ function dodgeParser(string)
       words[i].color = {0, 255, 0, 255}
       count = count + 1
       correctWord:play()
+
+      if getPlayer().curSpecial == getSpecials().gains then
+        getPlayer().curSpecial(getPlayer())
+      end
+
       return ''
     end
   end

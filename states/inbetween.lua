@@ -5,16 +5,19 @@ inbetween = {}
 require "states/game"
 
 local curSpecial = {
-  {0, 255, 0, 255},
-  {255, 255, 255, 255},
-  {255, 255, 255, 255}
+  {0, 255, 0, 255}, -- 1
+  {255, 255, 255, 255}, -- 2
+  {255, 255, 255, 255}, -- 3
+  {255, 255, 255, 255}, -- 4
+  {255, 255, 255, 255}, -- 5
+  {255, 255, 255, 255}, -- 6
 }
 
 local states = {
   {"battle ", "level ", "special ", "help "},
   {"vitality ", "endurance ", "strength ", "agility ", {255, 255, 0, 255}, "done "},
   {"health ", "move ", "s-points ", "vitality ", "endurance ", "strength ", "agility ", "special ", {255, 255, 0, 255}, "done "},
-  {curSpecial[1], "heal ", curSpecial[2], "attack ", curSpecial[3], "done "}
+  {curSpecial[1], "heal ", curSpecial[2], "attack ", curSpecial[3], "perfect ", curSpecial[4], "gains ", curSpecial[5], "stamina ", curSpecial[6], "done "}
 }
 
 local state = 1
@@ -25,7 +28,7 @@ local function resetCurSpecial(x)
   end
 
   curSpecial[x] = {0, 255, 0, 255}
-  states[4] = {curSpecial[1], "heal ", curSpecial[2], "attack ", curSpecial[3], "done "}
+  states[4] = {curSpecial[1], "heal ", curSpecial[2], "attack ", curSpecial[3], "perfect ", curSpecial[4], "gains ", curSpecial[5], "stamina ", curSpecial[6], "done "}
 end
 
 local stats = {}
@@ -113,18 +116,35 @@ local function inbetweenParser(text)
   elseif state == 4 then
     if stripSpaces(text) == 'heal' then
       setHelpLog("heal - heals the player for 5 health.", {255, 255, 255, 255})
+      setPlayerSpecial(getSpecials().heal) -- set player special
+
       correctWord:play()
-
       resetCurSpecial(1)
-
-      -- set player special
     elseif stripSpaces(text) == 'attack' then
       setHelpLog("attack - performs an extra attack without the cost of stamina.", {255, 255, 255, 255})
+      setPlayerSpecial(getSpecials().attack) -- set player special
+
       correctWord:play()
-
       resetCurSpecial(2)
+    elseif stripSpaces(text) == 'perfect' then
+      setHelpLog("perfect - perfect sentences deal 1 damage and heal 1 health! this is a passive special.", {255, 255, 255, 255})
+      setPlayerSpecial(getSpecials().perfect) -- set player special
 
-      -- set player special
+      correctWord:play()
+      resetCurSpecial(3)
+    elseif stripSpaces(text) == 'gains' then
+      setHelpLog("gains - gain stamina or special while defending incoming attacks! this is a passive special.", {255, 255, 255, 255})
+      setPlayerSpecial(getSpecials().gains) -- set player special
+
+      correctWord:play()
+      resetCurSpecial(4)
+
+    elseif stripSpaces(text) == 'stamina' then
+      setHelpLog("stamina - gain 5 percent more stamina per word! this is a passive special.", {255, 255, 255, 255})
+      setPlayerSpecial(getSpecials().stamina) -- set player special
+
+      correctWord:play()
+      resetCurSpecial(5)
     elseif stripSpaces(text) == 'done' then
       state = 1
       correctWord:play()
