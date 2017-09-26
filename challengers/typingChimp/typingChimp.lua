@@ -20,6 +20,7 @@ local chimp = {
   update = nil,
   draw = nil,
   drawUI = nil,
+  setWords = nil,
   -- booleans
   isAttacking = false,
   attackWords = {},
@@ -28,15 +29,39 @@ local chimp = {
   attackSpeed = 50, --45
   attackDamage = 2,
   isDead = false,
-  reward = 1, -- skill points awarded to the player after winning
+  reward = 2, -- skill points awarded to the player after winning
+  -- words
+  easy = 200,
+  med = 100,
+  hard = 0,
+  expert = 0
 }
+
+chimp.setWords = function()
+  shuffleWords()
+
+  local wordBank = {}
+  local easy = getEasy()
+  local med = getMed()
+
+  -- easy
+  for i = 1, chimp.easy do
+    table.insert(wordBank, easy[i])
+  end
+
+  -- med
+  for i = 1, chimp.med do
+    table.insert(wordBank, med[i])
+  end
+
+  setWordBank(wordBank)
+  chimp.attackWords = getWordBank()
+end
 
 chimp.load = function()
   chimp.image = maid64.newImage(chimp.image)
   chimp.portrait = maid64.newImage(chimp.portrait)
   chimp.ui = maid64.newImage(chimp.ui)
-
-  chimp.attackWords = getWordBank()
 
   addTimer(0.0, "isHit", chimp.timers)
   addTimer(0.0, "hitTime", chimp.timers)

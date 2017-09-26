@@ -33,7 +33,6 @@ function game:enter()
   setLog("Type!")
 
   -- loadKeybo()
-  -- loadWordBank()
   -- loadWords(getCurrentEnemy())
 end
 

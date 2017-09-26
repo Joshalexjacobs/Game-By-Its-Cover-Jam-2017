@@ -4,29 +4,24 @@ local chimp = require "challengers/typingChimp/typingChimp"
 local darrel = require "challengers/dataDarrel/dataDarrel"
 local betty = require "challengers/bettyBookKeeper/bettyBookKeeper"
 local stan = require "challengers/stanStenographer/stanStenographer"
+local qwerty = require "challengers/queenQWERTY/queenQWERTY"
 local challengers = {
   chimp,
   darrel,
   betty,
-  stan
+  stan,
+  qwerty
 }
 
-local challengersFiles = {
-  "challengers/typingChimp/typingChimp.txt", -- typing chimp
-  "challengers/dataDarrel/dataDarrel.txt", -- data darrel
-  "challengers/bettyBookKeeper/bettyBookKeeper.txt", -- bettyBookKeeper
-  "challengers/stanStenographer/stanStenographer.txt", -- stanStenographer
-  --[[
-  Other Challengers:
-  - Data Entry Darrel
-  - Batty Bookkeeper
-  - The Squinting Stenographer
-  - Queen QWERTY
-  ]]
-}
-local challengersIndex = 4
+local challengersIndex = 1
 
 local wordBank = {}
+
+-- [[ testing new word files ]]
+local easy = {}
+local med = {}
+local hard = {}
+local expert = {}
 
 local challengerFile = {}
 local cfIndex = 1
@@ -49,19 +44,19 @@ local sentenceTimerMax = 15.0
 --   }
 -- }
 
--- local function shuffle(x)
---   local n = #x -- gets the length of the table
---   while n >= 2 do -- only run if the table has more than 1 element
---     local k = love.math.random(n) -- get a random number
---     x[n], x[k] = x[k], x[n]
---     n = n - 1
---   end
---   return x
--- end
+local function shuffle(x)
+  local n = #x -- gets the length of the table
+  while n >= 2 do -- only run if the table has more than 1 element
+    local k = love.math.random(n) -- get a random number
+    x[n], x[k] = x[k], x[n]
+    n = n - 1
+  end
+  return x
+end
 
 local function generateLines()
   challengerFile = {}
-  local lineLength = love.math.random(10, 15)
+  local lineLength = love.math.random(10, 14)
   local newLine = {}
   local tempWordBank = copy(wordBank, tempWordBank)
 
@@ -79,12 +74,56 @@ local function generateLines()
   end
 end
 
-function loadWordBank()
-  for line in io.lines(challengersFiles[challengersIndex]) do -- load the current wordBank to use
-    table.insert(wordBank, line)
+--[[ testing new word files ]]
+function shuffleWords()
+  shuffle(easy)
+  shuffle(med)
+  shuffle(hard)
+  shuffle(expert)
+end
+
+function getEasy()
+  return easy
+end
+
+function getMed()
+  return med
+end
+
+function getHard()
+  return hard
+end
+
+function getExpert()
+  return expert
+end
+
+function loadWordFiles()
+  for line in io.lines("challengers/easy.txt") do
+    table.insert(easy, line)
   end
 
-  generateLines()
+  for line in io.lines("challengers/med.txt") do
+    table.insert(med, line)
+  end
+
+  for line in io.lines("challengers/hard.txt") do
+    table.insert(hard, line)
+  end
+
+  for line in io.lines("challengers/expert.txt") do
+    table.insert(expert, line)
+  end
+
+  shuffleWords()
+end
+
+function setWordBank(list)
+  wordBank = {}
+
+  for i = 1, #list do
+    table.insert(wordBank, list[i])
+  end
 end
 
 function loadChallengerFile()
@@ -92,8 +131,10 @@ function loadChallengerFile()
     challengers[i].load()
   end
 
-  loadWordBank()
   curEnemy = challengers[challengersIndex]
+  curEnemy.setWords()
+
+  generateLines()
 
   addTimer(0.0, "sentenceTimer", challengerTimers)
 end
@@ -225,9 +266,13 @@ function winParser(word)
   if stripSpaces(word) == "continue" then
     -- chimpMusic:stop()
     resetGame()
-    challengersIndex = challengersIndex + 1
-    curEnemy = challengers[challengersIndex]
-    Gamestate.switch(inbetween)
+    
+    if challengersIndex ~= 5 then
+      challengersIndex = challengersIndex + 1
+      curEnemy = challengers[challengersIndex]
+      curEnemy.setWords()
+      Gamestate.switch(inbetween)
+    end
   end
 
   return ''

@@ -23,20 +23,56 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = .75,
+  attackRate = .8,
   attackLength = 7,
-  attackSpeed = 60, --45
+  attackSpeed = 55, --45
   attackDamage = 3,
   isDead = false,
-  reward = 2, -- skill points awarded to the player after winning
+  reward = 3, -- skill points awarded to the player after winning
+  -- words
+  easy = 75,
+  med = 150,
+  hard = 70,
+  expert = 5
 }
+
+enemy.setWords = function()
+  shuffleWords()
+
+  local wordBank = {}
+  local easy = getEasy()
+  local med = getMed()
+  local hard = getHard()
+  local expert = getExpert()
+
+  -- easy
+  for i = 1, enemy.easy do
+    table.insert(wordBank, easy[i])
+  end
+
+  -- med
+  for i = 1, enemy.med do
+    table.insert(wordBank, med[i])
+  end
+
+  -- hard
+  for i = 1, enemy.hard do
+    table.insert(wordBank, hard[i])
+  end
+
+  -- expert
+  for i = 1, enemy.expert do
+    table.insert(wordBank, expert[i])
+  end
+
+  setWordBank(wordBank)
+  enemy.attackWords = getWordBank()
+end
 
 enemy.load = function()
   enemy.image = maid64.newImage(enemy.image)
   enemy.portrait = maid64.newImage(enemy.portrait)
   enemy.ui = maid64.newImage(enemy.ui)
-
-  enemy.attackWords = getWordBank()
 
   addTimer(0.0, "isHit", enemy.timers)
   addTimer(0.0, "hitTime", enemy.timers)

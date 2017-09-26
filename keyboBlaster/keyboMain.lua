@@ -68,6 +68,7 @@ function updateKeybo(dt)
 end
 
 function damageKeybo()
+  count = count + 1
   local curEnemy = getCurrentEnemy()
 
   local dmIndex = love.math.random(1, #damage)

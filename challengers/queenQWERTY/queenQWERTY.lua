@@ -1,18 +1,18 @@
 -- typingChimp.lua
 -- #AGBIC #indiegames #gamedev #love2d
 local enemy = {
-  name = "Darrel",
-  aka = "Data Entry Darrel",
-  sentenceTime = 15,
-  healthMAX = 40,
-  health = 40,
+  name = "QWERTY",
+  aka = "Queen Qwerty",
+  sentenceTime = 14,
+  healthMAX = 50,
+  health = 50,
   staminaMAX = 25,
   stamina = 0,
-  staminaRate = 0.9,
+  staminaRate = 1.0,
   timers = {},
   color = {255, 255, 255, 255},
-  image = "img/dataDarrel.png", -- 164 x 128
-  portrait = "img/dataDarrelP.png", -- 72 x 72
+  image = "img/placeholder.png", -- 164 x 128
+  portrait = "img/placeholderP.png", -- 72 x 72
   ui = "img/enemyHP.png",
   -- functions
   load = nil,
@@ -23,17 +23,17 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = 0.9,
-  attackLength = 6,
+  attackRate = .8,
+  attackLength = 7,
   attackSpeed = 55, --45
-  attackDamage = 2.5,
+  attackDamage = 3,
   isDead = false,
-  reward = 2, -- skill points awarded to the player after winning
+  reward = 3, -- skill points awarded to the player after winning
   -- words
-  easy = 150,
-  med = 125,
-  hard = 25,
-  expert = 0
+  easy = 75,
+  med = 150,
+  hard = 70,
+  expert = 5
 }
 
 enemy.setWords = function()
@@ -43,6 +43,7 @@ enemy.setWords = function()
   local easy = getEasy()
   local med = getMed()
   local hard = getHard()
+  local expert = getExpert()
 
   -- easy
   for i = 1, enemy.easy do
@@ -57,6 +58,11 @@ enemy.setWords = function()
   -- hard
   for i = 1, enemy.hard do
     table.insert(wordBank, hard[i])
+  end
+
+  -- expert
+  for i = 1, enemy.expert do
+    table.insert(wordBank, expert[i])
   end
 
   setWordBank(wordBank)
