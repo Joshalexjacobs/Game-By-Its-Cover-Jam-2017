@@ -26,9 +26,15 @@ end
 function game:enter()
   menuMusic:stop()
 
-  fast:setVolume(0.25)
-  fast:rewind()
-  fast:play()
+  if getCurrentEnemy().name == "QWERTY" then
+    bossMusic:setVolume(0.25)
+    bossMusic:rewind()
+    bossMusic:play()
+  else
+    fast:setVolume(0.25)
+    fast:rewind()
+    fast:play()
+  end
 
   setLog("Type!")
 

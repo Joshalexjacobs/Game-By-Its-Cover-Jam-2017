@@ -3,9 +3,9 @@
 local enemy = {
   name = "QWERTY",
   aka = "Queen Qwerty",
-  sentenceTime = 14,
-  healthMAX = 50,
-  health = 50,
+  sentenceTime = 15,
+  healthMAX = 75,
+  health = 75,
   staminaMAX = 25,
   stamina = 0,
   staminaRate = 1.0,
@@ -24,16 +24,16 @@ local enemy = {
   isAttacking = false,
   attackWords = {},
   attackRate = .8,
-  attackLength = 7,
+  attackLength = 10,
   attackSpeed = 55, --45
-  attackDamage = 3,
+  attackDamage = 5,
   isDead = false,
   reward = 3, -- skill points awarded to the player after winning
   -- words
-  easy = 75,
-  med = 150,
-  hard = 70,
-  expert = 5
+  easy = 30,
+  med = 120,
+  hard = 100,
+  expert = 50
 }
 
 enemy.setWords = function()

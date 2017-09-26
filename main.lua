@@ -1,16 +1,12 @@
 -- [[ T Y P I N G  C H A M P *click clack click* ]]
 
---[[ Typer Todd must rise through the ranks to become the TYPING CHAMP ]]
---[[ Typer Tabby must rise through the ranks to become the TYPING CHAMP ]]
-
 --[[
 TODO:
 1. Make attacking a little mini game where you have to type a hard word and get to deal
   bonus damage based on how many letters you get correct (timed) (bonus damage is % of
   correct letters of overall strength eg 5 / 10 letters == 50% if strength is 6, deal 3 damage)
 2. Normal and Expert difficulties
-3. Remaining 2 enemies, Queen QWERTY (boss) and Stanley The Stenographer
-4. Figure out a way to make the combat more enjoyable. Maybe make the specials stronger or add
+3. Figure out a way to make the combat more enjoyable. Maybe make the specials stronger or add
   abilities that cost a stamina turn, but do other things:
   - freeze: deals 3 damage and slows down the opponents stamina gain for 30 seconds
   - Poison: deals 0.25 - 0.5? damage per correct word for the next sentence
@@ -19,10 +15,9 @@ TODO:
   - Easy: the next 2 sentences are all easy words
   - Hard: deals 1 damage per correct word for the next sentence, but all words are hard
   - Double: your next attack deals double damage
-5. Add intro screen that's just text saying like "Welcome to Typing Champ Tournament 1987!..."
-6. Digitized voice recording of someone saying "TYPINGGGGGG CHAAAMP!"
-7. Add stumphead logo pre-main menu
-8. Add difficulties to main menu
+4. Add intro screen that's just text saying like "Welcome to Typing Champ Tournament 1987!..."
+5. Digitized voice recording of someone saying "TYPINGGGGGG CHAAAMP!"
+6. Add difficulties to main menu
 ]]
 
 Gamestate = require "lib/gamestate"
@@ -32,6 +27,7 @@ require "lib/timer"
 require "cameraControls"
 
 require "states/menu"
+require "states/welcome"
 require "specials"
 require "player"
 require "challenger"
@@ -134,7 +130,11 @@ function love.load(arg)
   -- music
   fast = love.audio.newSource("music/fast.wav")
   fast:setLooping(true)
-  fast:setVolume(0.1)
+  fast:setVolume(0.25)
+
+  bossMusic = love.audio.newSource("music/boss.wav")
+  bossMusic:setLooping(true)
+  bossMusic:setVolume(0.25)
 
   -- load fonts
   smallestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 6)
@@ -142,6 +142,7 @@ function love.load(arg)
   medFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 8)
   bigFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 16)
   biggestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 24)
+  biggerestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 48)
   love.graphics.setFont(bigFont)
 
   -- game images

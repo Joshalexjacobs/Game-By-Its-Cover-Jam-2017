@@ -266,7 +266,7 @@ function winParser(word)
   if stripSpaces(word) == "continue" then
     -- chimpMusic:stop()
     resetGame()
-    
+
     if challengersIndex ~= 5 then
       challengersIndex = challengersIndex + 1
       curEnemy = challengers[challengersIndex]

@@ -3,9 +3,9 @@
 local enemy = {
   name = "Stan",
   aka = "Stan the Steno- grapher",
-  sentenceTime = 14,
-  healthMAX = 50,
-  health = 50,
+  sentenceTime = 15,
+  healthMAX = 60,
+  health = 60,
   staminaMAX = 25,
   stamina = 0,
   staminaRate = 1.0,

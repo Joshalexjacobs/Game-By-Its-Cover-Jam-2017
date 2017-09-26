@@ -3,7 +3,7 @@
 local enemy = {
   name = "Betty",
   aka = "Betty Book Keeper",
-  sentenceTime = 14,
+  sentenceTime = 15,
   healthMAX = 50,
   health = 50,
   staminaMAX = 25,
