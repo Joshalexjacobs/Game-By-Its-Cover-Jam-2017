@@ -6,7 +6,7 @@ require "states/inbetween"
 
 local fade = 0
 local isFading = false
-local welcomeText = "Welcome to the 1987 National Typing Champ Tournament! You and 5 other competitors have answered the call to become the next TYPING CHAMP! But can you dethrone the almight Queen QWERTY and claim the title? Only if you truly do possess ten fingers of fury! Good luck, Typer! You're going to need it!"
+local welcomeText = "Congratulations, you're the new typing champion!"
 
 function welcome:enter()
 
@@ -37,17 +37,20 @@ function welcome:update(dt)
    if fade > 0 then
      fade = fade - dt * 75
    elseif fade <= 0 then
-     Gamestate.switch(inbetween)
+     love.event.quit()
    end
  end
 end
 
 function welcome:draw()
   maid64.start()
+  love.graphics.setColor({113, 15, 7, fade})
+  love.graphics.rectangle("fill", 0, 90, 408, 50)
   love.graphics.setColor({255, 255, 255, fade})
   -- love.graphics.setColor(NONE)
   love.graphics.setFont(bigFont)
-  love.graphics.printf(welcomeText, 0, 15, 408, "center")
+  love.graphics.printf(welcomeText, 0, 100, 408, "center")
+  love.graphics.draw(theTyper, 36, 12, 0, 1, 1, 0, 0)
   love.graphics.setFont(medFont)
   love.graphics.setColor(NONE)
   maid64.finish()

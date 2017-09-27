@@ -191,6 +191,14 @@ function inbetween:update(dt)
     end
   end
 
+  if bossMusic:isPlaying() then
+    bossMusic:setVolume(bossMusic:getVolume() - dt * 0.1)
+    if bossMusic:getVolume() <= 0 then
+      bossMusic:stop()
+      bossMusic:setVolume(0.25)
+    end
+  end
+
   if menuMusic:isPlaying() then
     menuMusic:setVolume(menuMusic:getVolume() - dt * 0.1)
     if menuMusic:getVolume() <= 0 then

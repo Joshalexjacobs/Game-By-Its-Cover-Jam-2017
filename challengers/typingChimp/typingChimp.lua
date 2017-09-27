@@ -24,9 +24,9 @@ local chimp = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = 1.0,
-  attackLength = 5,
-  attackSpeed = 50, --45
+  attackRate = 1.25,
+  attackLength = 3,
+  attackSpeed = 40, --45
   attackDamage = 2,
   isDead = false,
   reward = 2, -- skill points awarded to the player after winning

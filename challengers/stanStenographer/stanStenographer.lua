@@ -2,17 +2,17 @@
 -- #AGBIC #indiegames #gamedev #love2d
 local enemy = {
   name = "Stan",
-  aka = "Stan the Steno- grapher",
+  aka = "Stanley the Typing Wizard",
   sentenceTime = 15,
-  healthMAX = 60,
-  health = 60,
+  healthMAX = 50,
+  health = 50,
   staminaMAX = 25,
   stamina = 0,
   staminaRate = 1.0,
   timers = {},
   color = {255, 255, 255, 255},
-  image = "img/placeholder.png", -- 164 x 128
-  portrait = "img/placeholderP.png", -- 72 x 72
+  image = "img/stan.png", -- 164 x 128
+  portrait = "img/stanP.png", -- 72 x 72
   ui = "img/enemyHP.png",
   -- functions
   load = nil,
@@ -23,10 +23,10 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = .8,
-  attackLength = 7,
+  attackRate = 0.8,
+  attackLength = 4,
   attackSpeed = 55, --45
-  attackDamage = 3,
+  attackDamage = 5,
   isDead = false,
   reward = 3, -- skill points awarded to the player after winning
   -- words

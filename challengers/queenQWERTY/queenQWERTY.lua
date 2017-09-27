@@ -5,14 +5,14 @@ local enemy = {
   aka = "Queen Qwerty",
   sentenceTime = 15,
   healthMAX = 75,
-  health = 75,
+  health = 0,
   staminaMAX = 25,
   stamina = 0,
   staminaRate = 1.0,
   timers = {},
   color = {255, 255, 255, 255},
-  image = "img/placeholder.png", -- 164 x 128
-  portrait = "img/placeholderP.png", -- 72 x 72
+  image = "img/qwerty.png", -- 164 x 128
+  portrait = "img/qwertyP.png", -- 72 x 72
   ui = "img/enemyHP.png",
   -- functions
   load = nil,
@@ -23,10 +23,10 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = .8,
-  attackLength = 10,
+  attackRate = 0.8,
+  attackLength = 5,
   attackSpeed = 55, --45
-  attackDamage = 5,
+  attackDamage = 6,
   isDead = false,
   reward = 3, -- skill points awarded to the player after winning
   -- words

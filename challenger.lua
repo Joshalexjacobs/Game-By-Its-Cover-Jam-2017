@@ -13,7 +13,7 @@ local challengers = {
   qwerty
 }
 
-local challengersIndex = 1
+local challengersIndex = 5
 
 local wordBank = {}
 
@@ -191,6 +191,7 @@ function nextLine()
   if curEnemy.isAttacking then
     dodge = true
     setLog("Type for your life!")
+    string = "" -- testing
   end
 
   resetTimer(curEnemy.sentenceTime, "sentenceTimer", challengerTimers)
@@ -272,6 +273,8 @@ function winParser(word)
       curEnemy = challengers[challengersIndex]
       curEnemy.setWords()
       Gamestate.switch(inbetween)
+    else
+      Gamestate.switch(welcome)
     end
   end
 

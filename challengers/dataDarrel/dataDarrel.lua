@@ -8,7 +8,7 @@ local enemy = {
   health = 40,
   staminaMAX = 25,
   stamina = 0,
-  staminaRate = 0.9,
+  staminaRate = 0.8,
   timers = {},
   color = {255, 255, 255, 255},
   image = "img/dataDarrel.png", -- 164 x 128
@@ -23,10 +23,10 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = 0.9,
-  attackLength = 6,
-  attackSpeed = 55, --45
-  attackDamage = 2.5,
+  attackRate = 1.0,
+  attackLength = 4,
+  attackSpeed = 45, --45
+  attackDamage = 3,
   isDead = false,
   reward = 2, -- skill points awarded to the player after winning
   -- words

@@ -7,10 +7,10 @@ local player = {
   stamina = 0,
   specialMAX = 35,
   shield = 30, -- repurposed for special ability
-  vitality = 5, -- health
-  endurance = 2, -- defense (enemy.damage - endurance / 4)
-  strength = 3, -- attack
-  agility = 2, -- stamina to reach
+  vitality = 6, -- health
+  endurance = 3, -- defense (enemy.damage - endurance / 4)
+  strength = 5, -- attack
+  agility = 3, -- stamina to reach
   attackDie = 6,
   attackMultiplier = 1,
   skillPoints = 1,
@@ -105,9 +105,7 @@ function attack(name)
   -- calculate and return damage
   local damage = 0
 
-  for i = 1, player.attackMultiplier do
-    damage = damage + love.math.random(1, player.attackDie) + player.strength
-  end
+  damage = damage + love.math.random(5, player.attackDie) + player.strength
 
   player.stamina = 0
   setShake(0.2, 1.0)

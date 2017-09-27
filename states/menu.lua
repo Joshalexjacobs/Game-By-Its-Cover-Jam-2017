@@ -53,8 +53,8 @@ function menu:update(dt)
   if checkTimer("fadeOut", timers) and updateTimer(dt, "fadeOut", timers) == false then
     fade = fade + dt * 75
   elseif checkTimer("fadeOut", timers) and getTimerStatus("fadeOut", timers) then
-    -- Gamestate.switch(inbetween) -- swtich to game screen
-    Gamestate.switch(welcome) -- swtich to game screen
+    Gamestate.switch(inbetween) -- swtich to game screen
+    -- Gamestate.switch(welcome) -- swtich to game screen
   end
 end
 
