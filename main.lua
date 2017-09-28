@@ -2,15 +2,13 @@
 
 --[[
 TODO:
-2. Normal and Expert difficulties
-3. Digitized voice recording of someone saying "TYPINGGGGGG CHAAAMP!"
-4. Add difficulties to main menu
-
-POST RELEASE:
 1. Make attacking a little mini game where you have to type a hard word and get to deal
   bonus damage based on how many letters you get correct (timed) (bonus damage is % of
   correct letters of overall strength eg 5 / 10 letters == 50% if strength is 6, deal 3 damage)
-2. Figure out a way to make the combat more enjoyable. Maybe make the specials stronger or add
+2. Normal and Expert difficulties
+3. Digitized voice recording of someone saying "TYPINGGGGGG CHAAAMP!"
+4. Add difficulties to main menu
+5. Figure out a way to make the combat more enjoyable. Maybe make the specials stronger or add
   abilities that cost a stamina turn, but do other things:
   - freeze: deals 3 damage and slows down the opponents stamina gain for 30 seconds
   - Poison: deals 0.25 - 0.5? damage per correct word for the next sentence
@@ -19,6 +17,7 @@ POST RELEASE:
   - Easy: the next 2 sentences are all easy words
   - Hard: deals 1 damage per correct word for the next sentence, but all words are hard
   - Double: your next attack deals double damage
+6. make enter work for every parser
 ]]
 
 Gamestate = require "lib/gamestate"
@@ -161,6 +160,7 @@ function love.load(arg)
 
   -- [[ test load files ]]
   loadWordFiles()
+  loadReturnKey()
 
   -- load challenger
   loadChallengerFile()

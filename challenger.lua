@@ -13,7 +13,7 @@ local challengers = {
   qwerty
 }
 
-local challengersIndex = 5
+local challengersIndex = 1
 
 local wordBank = {}
 
@@ -32,17 +32,46 @@ local curEnemy = nil
 local challengerTimers = {}
 local sentenceTimerMax = 15.0
 
--- challengerFile diagram:
--- {
---   { -- line 1 -- cfIndex = 1
---     {word = "place ", color = PASS}, -- word 1
---     {"give ", color = FAIL},
---     "country ",
---   },
---   { -- line 2
---
---   }
--- }
+--[[ challengerFile diagram:
+{
+  { -- line 1 -- cfIndex = 1
+    {word = "place ", color = PASS}, -- word 1
+    {"give ", color = FAIL},
+    "country ",
+  },
+  { -- line 2
+
+  }
+}
+]] --
+
+local returnKey = {
+  x = 305,
+  y = 110,
+  spriteSheet = "img/returnKey.png",
+  spriteGrid = nil,
+  animations = {},
+  curAnim = 1,
+  isShowing = false,
+}
+
+function loadReturnKey()
+  returnKey.spriteGrid = anim8.newGrid(100, 57, 200, 57, 0, 0, 0)
+  returnKey.spriteSheet = maid64.newImage(returnKey.spriteSheet)
+  returnKey.animations = {
+    anim8.newAnimation(returnKey.spriteGrid("1-2", 1), 0.2), -- 1 idle
+  }  
+end
+
+local function updateReturnKey(dt)
+  returnKey.animations[returnKey.curAnim]:update(dt)
+end
+
+function drawReturnKey()
+  if returnKey.isShowing then
+    returnKey.animations[returnKey.curAnim]:draw(returnKey.spriteSheet, returnKey.x, returnKey.y)
+  end
+end
 
 local function shuffle(x)
   local n = #x -- gets the length of the table
@@ -197,7 +226,8 @@ function nextLine()
   resetTimer(curEnemy.sentenceTime, "sentenceTimer", challengerTimers)
 end
 
-function parser(word)
+function parser(word, eol)
+  if curWord <= #challengerFile[cfIndex] then
   local match = stripSpaces(challengerFile[cfIndex][curWord].word)
 
   if stripSpaces(word) == match then
@@ -210,8 +240,12 @@ function parser(word)
 
   curWord = curWord + 1
 
-  if curWord > #challengerFile[cfIndex] then
-    nextLine()
+  end
+  -- if curWord > #challengerFile[cfIndex] then
+    -- nextLine()
+  -- end
+
+
     -- local count = 0
     --
     -- for i, file in ipairs(challengerFile[cfIndex]) do
@@ -244,6 +278,15 @@ function parser(word)
     -- end
     --
     -- resetTimer(sentenceTimerMax, "sentenceTimer", challengerTimers)
+
+  -- testing... not sure if im a fan of this or not
+  if curWord > #challengerFile[cfIndex] then
+    returnKey.isShowing = true
+    
+    if eol then
+      returnKey.isShowing = false
+      nextLine()
+    end
   end
 
   return ''
@@ -296,9 +339,11 @@ end
 
 function challengerUpdate(dt)
   curEnemy.update(dt)
+  updateReturnKey(dt)
 
   if battle == false and dodge == false and updateTimer(dt, "sentenceTimer", challengerTimers) then
     nextLine()
+    returnKey.isShowing = false
   end
 end
 
@@ -325,7 +370,7 @@ function drawCurrentWord()
   end
 
   love.graphics.printf(time, 0, 180, 390, "right")
-  love.graphics.setColor(NONE)
+  love.graphics.setColor(NONE)  
 end
 
 function drawBattleOptions()
