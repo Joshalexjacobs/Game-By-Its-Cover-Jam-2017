@@ -45,6 +45,10 @@ local sentenceTimerMax = 15.0
 }
 ]] --
 
+local attackWord = ""
+local aWordIndex = 1
+local attackBonus = 0
+
 local returnKey = {
   x = 305,
   y = 110,
@@ -292,11 +296,23 @@ function parser(word, eol)
   return ''
 end
 
+function setAttackWord()
+  shuffle(expert)
+  attackWord = expert[1] -- !!! this actually needs to be seperated out into a list like coloredText, green/red/white/yellow
+  -- this will also make it easer to compare which letters you entered correctly 
+  -- then ill just need to make them move (sin) and add a timer
+  aWordIndex = 1
+end
+
 function battleParser(word)
   if stripSpaces(word) == "attack" then
-    curEnemy.damage(attack(curEnemy.name))
-    battle = false
-  elseif stripSpaces(word) == "defend" then
+    -- curEnemy.damage(attack(curEnemy.name))
+    -- battle = false
+
+    -- new code
+    setAttackWord()
+    bAttack = true
+  elseif stripSpaces(word) == "defend" then -- swap this out for abilities
     defend()
     battle = false
   elseif stripSpaces(word) == "special" then
@@ -304,6 +320,31 @@ function battleParser(word)
   end
 
   return ''
+end
+
+function attackParser(word)
+  if string.sub(word, aWordIndex, aWordIndex+1) == string.sub(attackWord, aWordIndex, aWordIndex+1) then
+    attackBonus = attackBonus + 1
+  end
+
+  if #word == #attackWord then
+    curEnemy.damage(attack(curEnemy.name, attackBonus))
+
+    bAttack = false
+    battle = false
+    return ' '
+  end
+
+  return word
+end
+
+function drawAttackWord()
+  love.graphics.setColor({0, 0, 0, 200})
+  love.graphics.rectangle("fill", 0, 45, 408, 50)
+  love.graphics.setColor(NONE)
+  love.graphics.setFont(bigFont)
+  love.graphics.printf(attackWord, 0, 60, 408, "center")
+  love.graphics.setFont(medFont)
 end
 
 function winParser(word)

@@ -10,6 +10,7 @@ game = {}
 string = ""
 
 battle = false
+bAttack = false
 dodge = false
 win = false
 loss = false
@@ -44,7 +45,11 @@ end
 
 function game:textinput(t) -- add user keystrokes to existing input
   if t ~= ' ' then
-    string = string .. t
+    if bAttack == false then
+      string = string .. t
+    elseif battle and bAttack then
+      string = attackParser(string .. t)
+    end
   elseif t == ' ' and #string > 0 and win then
     string = winParser(string .. t)
   elseif t == ' ' and #string > 0 and win == false and loss then
@@ -52,7 +57,9 @@ function game:textinput(t) -- add user keystrokes to existing input
   elseif t == ' ' and #string > 0 and win == false and loss == false and battle == false and dodge == false then
     string = parser(string .. t, false)
   elseif t == ' ' and #string > 0 and win == false and loss == false and battle and dodge == false then
-    string = battleParser(string .. t)
+    if bAttack == false then
+      string = battleParser(string .. t)
+    end
   elseif t == ' ' and #string > 0 and win == false and loss == false and battle == false and dodge then
     string = dodgeParser(string .. t)
   end
@@ -157,6 +164,10 @@ function game:draw()
 
   if dodge then
     drawKeybo()
+  end
+
+  if bAttack then
+    drawAttackWord()
   end
 
   -- detach camera

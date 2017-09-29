@@ -101,11 +101,13 @@ function updatePlayerStats(stats)
   return false
 end
 
-function attack(name)
+function attack(name, bonus)
   -- calculate and return damage
   local damage = 0
 
-  damage = damage + love.math.random(5, player.attackDie) + player.strength
+  print("bonus would be " .. bonus) -- calculate that here
+
+  damage = damage + love.math.random(5, player.attackDie) + player.strength -- and then add it here
 
   player.stamina = 0
   setShake(0.2, 1.0)
