@@ -47,6 +47,7 @@ local sentenceTimerMax = 15.0
 
 local attackWord = ""
 local aWordIndex = 1
+local maxAttackBonus = 0
 local attackBonus = 0
 
 local returnKey = {
@@ -301,6 +302,7 @@ function setAttackWord()
   attackWord = expert[1] -- !!! this actually needs to be seperated out into a list like coloredText, green/red/white/yellow
   -- this will also make it easer to compare which letters you entered correctly 
   -- then ill just need to make them move (sin) and add a timer
+  maxAttackBonus = #attackWord
   aWordIndex = 1
 end
 
@@ -328,7 +330,7 @@ function attackParser(word)
   end
 
   if #word == #attackWord then
-    curEnemy.damage(attack(curEnemy.name, attackBonus))
+    curEnemy.damage(attack(curEnemy.name, attackBonus, maxAttackBonus))
 
     bAttack = false
     battle = false
