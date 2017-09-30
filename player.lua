@@ -112,7 +112,13 @@ function attack(name, bonus, maxBonus)
   damage = damage + love.math.random(5, player.attackDie) + player.strength + bonus
 
   player.stamina = 0
-  setShake(0.2, 1.0)
+
+  if bonus == player.strength then
+    setShake(0.6, 1.0)
+  else
+    setShake(0.2, 1.0)
+  end
+
 
   setLog(name .. " took "..damage.." damage!")
   return damage
