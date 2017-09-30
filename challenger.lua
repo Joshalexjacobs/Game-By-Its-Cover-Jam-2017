@@ -57,7 +57,8 @@ local letter = {
   text = "",
   y = 60,
   speed = 150,
-  angle = 0
+  angle = 0,
+  dir = 1
 }
 
 local returnKey = {
@@ -340,6 +341,8 @@ function setAttackWord()
 
     newLetter.angle = love.math.random(-4, 4) * 0.01
 
+    newLetter.dir = love.math.random(-1, 1)
+
     if i == 1 then
       newLetter.color = CURRENT
     end
@@ -403,13 +406,6 @@ function updateAttackWord(dt)
   for _, newLetter in ipairs(attackLetters) do
     newLetter.y = newLetter.y + (-math.sin(newLetter.speed * dt))
 
-    -- if newLetter.y > 80 then
-    --   newLetter.speed = -newLetter.speed
-    --   newLetter.y = 79
-    -- elseif newLetter.y < 40 then
-    --   newLetter.speed = -newLetter.speed
-    --   newLetter.y = 41
-    -- end
     if newLetter.y > 65 then
       newLetter.speed = -newLetter.speed
       newLetter.y = 65
@@ -418,11 +414,7 @@ function updateAttackWord(dt)
       newLetter.y = 55
     end
 
-    if newLetter.angle > 0 then
-      newLetter.angle = newLetter.angle + dt * 0.03
-    else
-      newLetter.angle = newLetter.angle - dt * 0.03
-    end
+    newLetter.angle = newLetter.angle + (dt * 0.03) * newLetter.dir
   end
 
   if updateTimer(dt, "attack", attackTimers) then
