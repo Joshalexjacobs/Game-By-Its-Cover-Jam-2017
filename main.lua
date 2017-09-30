@@ -1,6 +1,19 @@
 -- [[ T Y P I N G  C H A M P *click clack click* ]]
 
 --[[
+Sites to post on once you finish the last build:
+- r/learntyping
+- r/typing
+- r/typeracer
+- r/itchio
+- love2d forums (possible include source code?)
+- r/IndieGaming/
+- r/playmygame
+- r/gamejams
+- 10fastfingers.com/forum/
+]]
+
+--[[
 TODO:
 1. Make attacking a little mini game where you have to type a hard word and get to deal
   bonus damage based on how many letters you get correct (timed) (bonus damage is % of
@@ -18,6 +31,7 @@ TODO:
   - Hard: deals 1 damage per correct word for the next sentence, but all words are hard
   - Double: your next attack deals double damage
 6. make enter work for every parser
+7. Create a conf file
 ]]
 
 Gamestate = require "lib/gamestate"
@@ -141,6 +155,7 @@ function love.load(arg)
   smallFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 7)
   medFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 8)
   bigFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 16)
+  bigBigFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 18)
   biggestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 24)
   biggerestFont = love.graphics.newFont("lib/Punch-Out!! NES.ttf", 48)
   love.graphics.setFont(bigFont)

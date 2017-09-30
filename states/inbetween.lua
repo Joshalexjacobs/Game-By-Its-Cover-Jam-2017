@@ -162,6 +162,10 @@ function inbetween:textinput(t)
     string = string .. t
   end
 
+  if #string >= 20 then
+    string = ""
+  end
+
   clickClack()
 end
 

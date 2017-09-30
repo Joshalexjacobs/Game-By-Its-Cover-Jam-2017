@@ -105,12 +105,11 @@ function attack(name, bonus, maxBonus)
   -- calculate and return damage
   local damage = 0
 
-  -- calculation should look something like:
-  bonus = math.ceil((bonus / maxBonus) * player.strength)
-  print("bonus would be " .. bonus.. " player strength is " .. player.strength)
+  -- bonus calculation should look something like:
+  bonus = math.floor((bonus / maxBonus) * player.strength)
+  -- print("bonus would be " .. bonus .. " player strength is " .. player.strength)
 
-
-  damage = damage + love.math.random(5, player.attackDie) + player.strength -- and then add it here
+  damage = damage + love.math.random(5, player.attackDie) + player.strength + bonus
 
   player.stamina = 0
   setShake(0.2, 1.0)

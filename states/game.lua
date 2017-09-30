@@ -83,10 +83,10 @@ end
 
 function game:keypressed(key, code)
   -- pressed backspace
-  if key == "backspace" then
+  if key == "backspace" and bAttack == false then
     string = string.sub(string, 1, #string - 1)
     clickClack()
-  elseif key == "return" then
+  elseif key == "return" and bAttack == false and dodge == false then
     string = parser(string, true) -- currently only works at end of sentences
   end
 end

@@ -46,9 +46,19 @@ local sentenceTimerMax = 15.0
 ]] --
 
 local attackWord = ""
+local attackLetters = {}
 local aWordIndex = 1
 local maxAttackBonus = 0
 local attackBonus = 0
+local attackTimers = {}
+
+local letter = {
+  color = {255, 255, 255, 255},
+  text = "",
+  y = 60,
+  speed = 150,
+  angle = 0
+}
 
 local returnKey = {
   x = 305,
@@ -66,6 +76,8 @@ function loadReturnKey()
   returnKey.animations = {
     anim8.newAnimation(returnKey.spriteGrid("1-2", 1), 0.2), -- 1 idle
   }  
+
+  addTimer(0.0, "attack", attackTimers)
 end
 
 local function updateReturnKey(dt)
@@ -302,8 +314,43 @@ function setAttackWord()
   attackWord = expert[1] -- !!! this actually needs to be seperated out into a list like coloredText, green/red/white/yellow
   -- this will also make it easer to compare which letters you entered correctly 
   -- then ill just need to make them move (sin) and add a timer
+
+  attackLetters = {}
+  local preSpaces = ""
+  local postSpaces = ""
+  for i = 1, #attackWord - 1 do
+    postSpaces = postSpaces .. " "
+  end
+
+  for i = 1, #attackWord do
+    local newLetter = copy(letter, newLetter)
+
+    newLetter.text = preSpaces .. string.sub(attackWord, i, i) .. postSpaces-- i is the position that the letter gets filled in at
+    
+    preSpaces = preSpaces .. " "
+    postSpaces = string.sub(postSpaces, 2, #postSpaces)
+
+    newLetter.color = NONE
+
+    if i % 2  == 0 then 
+      newLetter.y = newLetter.y + 1
+    else
+      newLetter.y = newLetter.y - 1
+    end
+
+    newLetter.angle = love.math.random(-4, 4) * 0.01
+
+    if i == 1 then
+      newLetter.color = CURRENT
+    end
+
+    table.insert(attackLetters, newLetter)
+  end
+
   maxAttackBonus = #attackWord
   aWordIndex = 1
+
+  resetTimer(5.0, "attack", attackTimers)
 end
 
 function battleParser(word)
@@ -325,9 +372,19 @@ function battleParser(word)
 end
 
 function attackParser(word)
-  if string.sub(word, aWordIndex, aWordIndex+1) == string.sub(attackWord, aWordIndex, aWordIndex+1) then
+  if string.sub(word, aWordIndex, aWordIndex) == stripSpaces(attackLetters[aWordIndex].text) then
     attackBonus = attackBonus + 1
+    attackLetters[aWordIndex].color = PASS
+  else
+    attackLetters[aWordIndex].color = FAIL
   end
+
+  aWordIndex = aWordIndex + 1
+
+  -- if string.sub(word, aWordIndex, aWordIndex) == string.sub(attackWord, aWordIndex, aWordIndex) then
+  --   attackBonus = attackBonus + 1
+  --   aWordIndex = aWordIndex + 1
+  -- end
 
   if #word == #attackWord then
     curEnemy.damage(attack(curEnemy.name, attackBonus, maxAttackBonus))
@@ -335,17 +392,66 @@ function attackParser(word)
     bAttack = false
     battle = false
     return ' '
+  else
+    attackLetters[aWordIndex].color = CURRENT
   end
 
   return word
 end
 
+function updateAttackWord(dt)
+  for _, newLetter in ipairs(attackLetters) do
+    newLetter.y = newLetter.y + (-math.sin(newLetter.speed * dt))
+
+    -- if newLetter.y > 80 then
+    --   newLetter.speed = -newLetter.speed
+    --   newLetter.y = 79
+    -- elseif newLetter.y < 40 then
+    --   newLetter.speed = -newLetter.speed
+    --   newLetter.y = 41
+    -- end
+    if newLetter.y > 65 then
+      newLetter.speed = -newLetter.speed
+      newLetter.y = 65
+    elseif newLetter.y < 55 then
+      newLetter.speed = -newLetter.speed
+      newLetter.y = 55
+    end
+
+    if newLetter.angle > 0 then
+      newLetter.angle = newLetter.angle + dt * 0.03
+    else
+      newLetter.angle = newLetter.angle - dt * 0.03
+    end
+  end
+
+  if updateTimer(dt, "attack", attackTimers) then
+    curEnemy.damage(attack(curEnemy.name, attackBonus, maxAttackBonus))
+    bAttack = false
+    battle = false
+  end
+end
+
 function drawAttackWord()
   love.graphics.setColor({0, 0, 0, 200})
-  love.graphics.rectangle("fill", 0, 45, 408, 50)
+  love.graphics.rectangle("fill", 0, 45, 408, 60)
+
+  
+  love.graphics.setColor({255, 0, 0, 150})
+  -- love.graphics.setFont(biggestFont)
+  love.graphics.setFont(biggerestFont)
+  love.graphics.printf(math.floor(getTimerTime("attack", attackTimers)), 0, 55, 408, "center")
+
   love.graphics.setColor(NONE)
   love.graphics.setFont(bigFont)
-  love.graphics.printf(attackWord, 0, 60, 408, "center")
+
+
+  for _, newLetter in ipairs(attackLetters) do
+    local coloredText = {newLetter.color, newLetter.text, {255, 255, 255, 0}, "."}
+    -- love.graphics.printf(coloredText, 0, 60, 408, "center")
+    love.graphics.printf(coloredText, 0, newLetter.y, 408, "center", newLetter.angle)
+  end
+  
   love.graphics.setFont(medFont)
 end
 
@@ -383,6 +489,10 @@ end
 function challengerUpdate(dt)
   curEnemy.update(dt)
   updateReturnKey(dt)
+
+  if bAttack and battle then
+    updateAttackWord(dt)
+  end
 
   if battle == false and dodge == false and updateTimer(dt, "sentenceTimer", challengerTimers) then
     nextLine()
