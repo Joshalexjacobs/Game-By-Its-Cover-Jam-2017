@@ -1,15 +1,15 @@
 -- player.lua
 
 local player = {
-  health = 50,
-  healthMAX = 50, -- (vitality * 2.5)
+  health = 15,
+  healthMAX = 15, -- (vitality * 2.5)
   staminaMAX = 25, -- (25 - agility/4)
   stamina = 0,
   specialMAX = 35,
-  shield = 30, -- repurposed for special ability
+  shield = 0, -- repurposed for special ability
   vitality = 6, -- health
   endurance = 3, -- defense (enemy.damage - endurance / 4)
-  strength = 5, -- attack
+  strength = 3, -- attack
   agility = 3, -- stamina to reach
   attackDie = 6,
   attackMultiplier = 1,
@@ -106,8 +106,10 @@ function attack(name, bonus, maxBonus)
   local damage = 0
 
   -- bonus calculation should look something like:
-  bonus = math.floor((bonus / maxBonus) * player.strength)
-  -- print("bonus would be " .. bonus .. " player strength is " .. player.strength)
+  local maxBonusDMG = player.strength
+  if player.strength > 5 then maxBonusDMG = 5 end
+  bonus = math.floor((bonus / maxBonus) * maxBonusDMG)
+  -- print("bonus would be " .. bonus .. " player strength is " .. player.strength .. " maxBonusDMG is " .. maxBonusDMG)
 
   damage = damage + love.math.random(5, player.attackDie) + player.strength + bonus
 

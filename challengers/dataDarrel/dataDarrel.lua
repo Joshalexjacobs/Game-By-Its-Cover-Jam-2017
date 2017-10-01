@@ -3,12 +3,12 @@
 local enemy = {
   name = "Darrel",
   aka = "Data Entry Darrel",
-  sentenceTime = 15,
-  healthMAX = 40,
-  health = 40,
+  sentenceTime = 25,
+  healthMAX = 50,
+  health = 50,
   staminaMAX = 25,
   stamina = 0,
-  staminaRate = 0.8,
+  staminaRate = 0.45,
   timers = {},
   color = {255, 255, 255, 255},
   image = "img/dataDarrel.png", -- 164 x 128
@@ -23,17 +23,43 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = 1.0,
+  attackRate = 1.4,
   attackLength = 4,
-  attackSpeed = 45, --45
+  attackSpeed = 27.5, --45
   attackDamage = 3,
   isDead = false,
   reward = 2, -- skill points awarded to the player after winning
   -- words
-  easy = 150,
+  easy = 250,
   med = 125,
   hard = 25,
   expert = 0
+}
+
+local expert = {
+  sentencetTime = 15,
+  healthMAX = 75,
+  health = 75,
+  staminaMAX = 25,
+  stamina = 0,
+  staminaRate = 0.85,
+  attackRate = 1.1,
+  attackLength = 4,
+  attackSpeed = 45,
+  attackDamage = 3
+}
+
+local hard = {
+  sentencetTime = 20,
+  healthMAX = 60,
+  health = 60,
+  staminaMAX = 25,
+  stamina = 0,
+  staminaRate = 0.8,
+  attackRate = 1.25,
+  attackLength = 4,
+  attackSpeed = 40,
+  attackDamage = 3
 }
 
 enemy.setWords = function()

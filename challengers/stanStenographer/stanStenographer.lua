@@ -3,12 +3,12 @@
 local enemy = {
   name = "Stan",
   aka = "Stanley the Typing Wizard",
-  sentenceTime = 15,
-  healthMAX = 50,
-  health = 50,
+  sentenceTime = 20,
+  healthMAX = 65,
+  health = 65,
   staminaMAX = 25,
   stamina = 0,
-  staminaRate = 1.0,
+  staminaRate = 0.6,
   timers = {},
   color = {255, 255, 255, 255},
   image = "img/stan.png", -- 164 x 128
@@ -23,17 +23,43 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = 0.8,
+  attackRate = 1.25,
   attackLength = 4,
-  attackSpeed = 55, --45
-  attackDamage = 5,
+  attackSpeed = 32.5, --45
+  attackDamage = 4,
   isDead = false,
   reward = 3, -- skill points awarded to the player after winning
   -- words
-  easy = 75,
+  easy = 175,
   med = 150,
   hard = 70,
   expert = 5
+}
+
+local expert = {
+  sentencetTime = 15,
+  healthMAX = 95,
+  health = 95,
+  staminaMAX = 25,
+  stamina = 0,
+  staminaRate = 1.05,
+  attackRate = 0.95,
+  attackLength = 6,
+  attackSpeed = 55,
+  attackDamage = 5
+}
+
+local hard = {
+  sentencetTime = 20,
+  healthMAX = 70,
+  health = 70,
+  staminaMAX = 25,
+  stamina = 0,
+  staminaRate = 0.9,
+  attackRate = 1.15,
+  attackLength = 5,
+  attackSpeed = 45,
+  attackDamage = 5
 }
 
 enemy.setWords = function()

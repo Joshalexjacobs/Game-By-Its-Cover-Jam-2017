@@ -3,12 +3,12 @@
 local chimp = {
   name = "Howard",
   aka = "The Typing Chimp",
-  sentenceTime = 15,
-  healthMAX = 30,
-  health = 30,
+  sentenceTime = 25,
+  healthMAX = 40,
+  health = 40,
   staminaMAX = 25,
   stamina = 0,
-  staminaRate = 0.75,
+  staminaRate = 0.4,
   timers = {},
   color = {255, 255, 255, 255},
   image = "img/newmonkey.png",
@@ -24,17 +24,43 @@ local chimp = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = 1.25,
+  attackRate = 1.5,
   attackLength = 3,
-  attackSpeed = 40, --45
+  attackSpeed = 25,
   attackDamage = 2,
   isDead = false,
   reward = 2, -- skill points awarded to the player after winning
   -- words
-  easy = 200,
+  easy = 280,
   med = 100,
   hard = 0,
   expert = 0
+}
+
+local expert = {
+  sentencetTime = 15,
+  healthMAX = 65,
+  health = 65,
+  staminaMAX = 25,
+  stamina = 0,
+  staminaRate = 0.75,
+  attackRate = 1.25,
+  attackLength = 3,
+  attackSpeed = 40,
+  attackDamage = 2
+}
+
+local hard = {
+  sentencetTime = 20,
+  healthMAX = 50,
+  health = 50,
+  staminaMAX = 25,
+  stamina = 0,
+  staminaRate = 0.6,
+  attackRate = 1.35,
+  attackLength = 3,
+  attackSpeed = 35,
+  attackDamage = 2
 }
 
 chimp.setWords = function()

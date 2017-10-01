@@ -352,6 +352,7 @@ function setAttackWord()
 
   maxAttackBonus = #attackWord
   aWordIndex = 1
+  attackBonus = 0
 
   resetTimer(5.0, "attack", attackTimers)
 end
@@ -394,7 +395,7 @@ function attackParser(word)
 
     bAttack = false
     battle = false
-    return ' '
+    return ''
   else
     attackLetters[aWordIndex].color = CURRENT
   end

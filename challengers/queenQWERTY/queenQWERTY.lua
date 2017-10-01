@@ -3,12 +3,12 @@
 local enemy = {
   name = "QWERTY",
   aka = "Queen Qwerty",
-  sentenceTime = 15,
-  healthMAX = 75,
-  health = 75,
+  sentenceTime = 25,
+  healthMAX = 80,
+  health = 80,
   staminaMAX = 25,
   stamina = 0,
-  staminaRate = 1.0,
+  staminaRate = 0.7,
   timers = {},
   color = {255, 255, 255, 255},
   image = "img/qwerty.png", -- 164 x 128
@@ -23,17 +23,43 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = 0.8,
+  attackRate = 1.15,
   attackLength = 5,
-  attackSpeed = 55, --45
-  attackDamage = 6,
+  attackSpeed = 40,
+  attackDamage = 5,
   isDead = false,
   reward = 3, -- skill points awarded to the player after winning
   -- words
-  easy = 30,
+  easy = 130,
   med = 120,
   hard = 100,
   expert = 50
+}
+
+local expert = {
+  sentencetTime = 15,
+  healthMAX = 115,
+  health = 115,
+  staminaMAX = 25,
+  stamina = 0,
+  staminaRate = 1.1,
+  attackRate = 0.95,
+  attackLength = 7,
+  attackSpeed = 55,
+  attackDamage = 6
+}
+
+local hard = {
+  sentencetTime = 20,
+  healthMAX = 95,
+  health = 95,
+  staminaMAX = 25,
+  stamina = 0,
+  staminaRate = 0.9,
+  attackRate = 1.0,
+  attackLength = 5,
+  attackSpeed = 50,
+  attackDamage = 6
 }
 
 enemy.setWords = function()

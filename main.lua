@@ -15,13 +15,9 @@ Sites to post on once you finish the last build:
 
 --[[
 TODO:
-1. Make attacking a little mini game where you have to type a hard word and get to deal
-  bonus damage based on how many letters you get correct (timed) (bonus damage is % of
-  correct letters of overall strength eg 5 / 10 letters == 50% if strength is 6, deal 3 damage)
-2. Normal and Expert difficulties
-3. Digitized voice recording of someone saying "TYPINGGGGGG CHAAAMP!"
-4. Add difficulties to main menu
-5. Figure out a way to make the combat more enjoyable. Maybe make the specials stronger or add
+1. Normal and Expert difficulties
+2. Digitized voice recording of someone saying "TYPINGGGGGG CHAAAMP!"
+4. Figure out a way to make the combat more enjoyable. Maybe make the specials stronger or add
   abilities that cost a stamina turn, but do other things:
   - freeze: deals 3 damage and slows down the opponents stamina gain for 30 seconds
   - Poison: deals 0.25 - 0.5? damage per correct word for the next sentence
@@ -30,8 +26,19 @@ TODO:
   - Easy: the next 2 sentences are all easy words
   - Hard: deals 1 damage per correct word for the next sentence, but all words are hard
   - Double: your next attack deals double damage
-6. make enter work for every parser
-7. Create a conf file
+5. make enter work for every parser
+]]
+
+--[[changelog:
+- added new attack bonus
+- enter key press on end of sentence
+- normal and expert difficulties (normal 60 - 80 wpm, expert 80 - 90 wpm)
+- added abilites (not yet)
+]]
+
+--[[BUGS
+- bonus attack doesnt read caps locked letters
+- if you fail bonus attack, it doesnt clear string
 ]]
 
 Gamestate = require "lib/gamestate"
@@ -57,6 +64,8 @@ NONE = {255, 255, 255, 255}
 CURRENT = {255, 255, 0, 255}
 PASS = {0, 255, 0, 255}
 FAIL = {255, 0, 0, 255}
+
+difficulty = "normal" 
 
 world = love.physics.newWorld(0, 9.81 * 64, true)
 
@@ -182,6 +191,11 @@ function love.load(arg)
 
   -- load keybo
   loadKeybo()
+
+  -- load menu assets
+  titleImg = maid64.newImage("img/title.png")
+  copyright = maid64.newImage("img/copyright.png")
+  menuMusic = love.audio.newSource("music/Mercury.wav")
 
   Gamestate.registerEvents()
   Gamestate.switch(menu)

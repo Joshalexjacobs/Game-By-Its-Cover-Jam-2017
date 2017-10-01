@@ -3,12 +3,12 @@
 local enemy = {
   name = "Betty",
   aka = "Betty Book Keeper",
-  sentenceTime = 15,
-  healthMAX = 45,
-  health = 45,
+  sentenceTime = 25,
+  healthMAX = 55,
+  health = 55,
   staminaMAX = 25,
   stamina = 0,
-  staminaRate = 0.9,
+  staminaRate = 0.5,
   timers = {},
   color = {255, 255, 255, 255},
   image = "img/betty.png", -- 164 x 128
@@ -23,17 +23,43 @@ local enemy = {
   -- booleans
   isAttacking = false,
   attackWords = {},
-  attackRate = 0.9,
+  attackRate = 1.35,
   attackLength = 4,
-  attackSpeed = 50, --45
-  attackDamage = 4,
+  attackSpeed = 30, --45
+  attackDamage = 3,
   isDead = false,
   reward = 2, -- skill points awarded to the player after winning
   -- words
-  easy = 100,
+  easy = 200,
   med = 150,
   hard = 50,
   expert = 0
+}
+
+local expert = {
+  sentencetTime = 15,
+  healthMAX = 85,
+  health = 85,
+  staminaMAX = 25,
+  stamina = 0,
+  staminaRate = 0.95,
+  attackRate = 1.0,
+  attackLength = 5,
+  attackSpeed = 50,
+  attackDamage = 4
+}
+
+local hard = {
+  sentencetTime = 20,
+  healthMAX = 65,
+  health = 65,
+  staminaMAX = 25,
+  stamina = 0,
+  staminaRate = 0.85,
+  attackRate = 1.2,
+  attackLength = 4,
+  attackSpeed = 42.5,
+  attackDamage = 4
 }
 
 enemy.setWords = function()
