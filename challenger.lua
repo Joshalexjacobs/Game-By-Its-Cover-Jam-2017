@@ -365,8 +365,9 @@ function battleParser(word)
     -- new code
     setAttackWord()
     bAttack = true
-  elseif stripSpaces(word) == "defend" then -- swap this out for abilities
-    defend()
+  elseif stripSpaces(word) == "ability" then -- swap this out for abilities
+    -- defend()
+    abilities()
     battle = false
   elseif stripSpaces(word) == "special" then
     special()
@@ -488,6 +489,7 @@ function challengerUpdate(dt)
   end
 
   if battle == false and dodge == false and updateTimer(dt, "sentenceTimer", challengerTimers) then
+    string = ""
     nextLine()
     returnKey.isShowing = false
   end

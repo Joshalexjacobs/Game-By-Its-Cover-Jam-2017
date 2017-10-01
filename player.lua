@@ -45,7 +45,7 @@ function playerLoad()
   table.insert(battleOptions, "attack ") -- 2
 
   table.insert(battleOptions, NONE) -- 3
-  table.insert(battleOptions, "defend ") -- 4
+  table.insert(battleOptions, "ability ") -- 4
 
   table.insert(battleOptions, FAIL) -- 5
   table.insert(battleOptions, "special ") -- 6
@@ -124,6 +124,10 @@ function attack(name, bonus, maxBonus)
 
   setLog(name .. " took "..damage.." damage!")
   return damage
+end
+
+function abilities()
+  print("do an ablity thing?")
 end
 
 function defend()

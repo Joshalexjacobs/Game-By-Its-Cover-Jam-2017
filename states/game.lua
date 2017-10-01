@@ -86,8 +86,19 @@ function game:keypressed(key, code)
   if key == "backspace" and bAttack == false then
     string = string.sub(string, 1, #string - 1)
     clickClack()
+  elseif key == "return" and #string > 0 and win == false and loss == false and battle == false and dodge then
+    string = dodgeParser(string)
+  elseif key == "return" and #string > 0 and win then
+    string = winParser(string)
+  elseif key == "return" and #string > 0 and win == false and loss then
+    string = lossParser(string)    
+  elseif key == "return" and #string > 0 and win == false and loss == false and battle and dodge == false then
+    if bAttack == false then
+      string = battleParser(string)
+    end
   elseif key == "return" and bAttack == false and dodge == false then
     string = parser(string, true) -- currently only works at end of sentences
+
   end
 end
 

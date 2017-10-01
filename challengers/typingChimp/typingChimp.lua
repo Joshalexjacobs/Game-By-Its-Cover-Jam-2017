@@ -26,8 +26,8 @@ local chimp = {
   attackWords = {},
   attackRate = 1.5,
   attackLength = 3,
-  attackSpeed = 25,
-  attackDamage = 2,
+  attackSpeed = 27.5,
+  attackDamage = 5,
   isDead = false,
   reward = 2, -- skill points awarded to the player after winning
   -- words

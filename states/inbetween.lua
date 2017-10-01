@@ -174,6 +174,8 @@ function inbetween:keypressed(key, code)
   if key == "backspace" then
     string = string.sub(string, 1, #string - 1)
     clickClack()
+  elseif key == "return" then
+    string = inbetweenParser(string)
   end
 end
 
