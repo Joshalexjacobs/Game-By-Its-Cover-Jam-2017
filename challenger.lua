@@ -186,6 +186,14 @@ function loadChallengerFile()
   addTimer(0.0, "sentenceTimer", challengerTimers)
 end
 
+function setDifficulty()
+  -- chimp.setDifficulty()
+
+  for i = 1, #challengers do
+    challengers[i].setDifficulty()
+  end
+end
+
 function getWordBank()
   return wordBank
 end
@@ -365,10 +373,10 @@ function battleParser(word)
     -- new code
     setAttackWord()
     bAttack = true
-  elseif stripSpaces(word) == "ability" then -- swap this out for abilities
+  -- elseif stripSpaces(word) == "ability" then -- swap this out for abilities
     -- defend()
-    abilities()
-    battle = false
+    -- abilities()
+    -- battle = false
   elseif stripSpaces(word) == "special" then
     special()
   end

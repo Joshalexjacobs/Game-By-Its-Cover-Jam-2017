@@ -15,7 +15,7 @@ local flashDir = 1
 local fade = 0
 
 local showMenu = false
-local menuText = {{255, 255, 0, 255, 255}, "normal\n", {255, 255, 255, 255}, "expert"}
+local menuText = {{255, 255, 0, 255, 255}, "normal\n", {255, 255, 255, 255}, "hard\n", {255, 255, 255, 255}, "expert"}
 local selection = 1 -- 1 for normal 2 for expert
 
 function menu:enter()
@@ -34,12 +34,20 @@ function menu:keypressed(key, code)
   end
 
   if showMenu and checkTimer("fadeOut", timers) == false then
-    if key == "up" or key == "down"  then
+    if key == "up" then
       correctWord:play()
-      if selection == 1 then selection = 2 else selection = 1 end
+      selection = selection-1
+      if selection > 3 then selection = 1 end
+      if selection < 1 then selection = 3 end
+    elseif key == "down" then
+      correctWord:play()
+      selection = selection+1
+      if selection > 3 then selection = 1 end
+      if selection < 1 then selection = 3 end
     elseif (key == "return" or key == "space") and checkTimer("fadeOut", timers) == false then -- quit on escape
       menuSelect:play()
       difficulty = selection
+      setDifficulty()
       -- Gamestate.switch(game) -- swtich to game screen
       -- Gamestate.switch(inbetween) -- swtich to game screen
       resetTimer(0.0, "introFade", timers)
@@ -68,9 +76,11 @@ function menu:update(dt)
   end
 
   if selection == 1 then
-    menuText = {{255, 255, 0, 255, 255}, "normal\n", {255, 255, 255, 255}, "expert"}
+    menuText = {{255, 255, 0, 255, 255}, "normal\n", {255, 255, 255, 255}, "hard\n", {255, 255, 255, 255}, "expert"}
+  elseif selection == 2 then
+    menuText = {{255, 255, 255, 255}, "normal\n", {255, 255, 0, 255, 255}, "hard\n", {255, 255, 255, 255}, "expert"}
   else
-    menuText = {{255, 255, 255, 255}, "normal\n", {255, 255, 0, 255, 255}, "expert"}
+    menuText = {{255, 255, 255, 255}, "normal\n", {255, 255, 255, 255}, "hard\n", {255, 255, 0, 255}, "expert"}
   end
 end
 

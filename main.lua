@@ -15,7 +15,6 @@ Sites to post on once you finish the last build:
 
 --[[
 TODO:
-1. Normal and Expert difficulties
 2. Digitized voice recording of someone saying "TYPINGGGGGG CHAAAMP!"
 3. Figure out a way to make the combat more enjoyable. Maybe make the specials stronger or add
   abilities that cost a stamina turn, but do other things:

@@ -37,7 +37,7 @@ local enemy = {
 }
 
 local expert = {
-  sentencetTime = 15,
+  sentenceTime = 15,
   healthMAX = 95,
   health = 95,
   staminaMAX = 25,
@@ -50,7 +50,7 @@ local expert = {
 }
 
 local hard = {
-  sentencetTime = 20,
+  sentenceTime = 20,
   healthMAX = 70,
   health = 70,
   staminaMAX = 25,
@@ -93,6 +93,30 @@ enemy.setWords = function()
 
   setWordBank(wordBank)
   enemy.attackWords = getWordBank()
+end
+
+enemy.setDifficulty = function()
+  if difficulty == 2 then
+    enemy.sentenceTime = hard.sentenceTime
+    enemy.healthMAX = hard.healthMAX
+    enemy.health = hard.health
+    enemy.staminaMAX = hard.staminaMAX
+    enemy.staminaRate = hard.staminaRate
+    enemy.attackRate = hard.attackRate
+    enemy.attackLength = hard.attackLength
+    enemy.attackSpeed = hard.attackSpeed
+    enemy.attackDamage = hard.attackDamage
+  elseif difficulty == 3 then
+    enemy.sentenceTime = expert.sentenceTime
+    enemy.healthMAX = expert.healthMAX
+    enemy.health = expert.health
+    enemy.staminaMAX = expert.staminaMAX
+    enemy.staminaRate = expert.staminaRate
+    enemy.attackRate = expert.attackRate
+    enemy.attackLength = expert.attackLength
+    enemy.attackSpeed = expert.attackSpeed
+    enemy.attackDamage = expert.attackDamage
+  end
 end
 
 enemy.load = function()

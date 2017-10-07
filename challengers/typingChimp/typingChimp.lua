@@ -38,7 +38,7 @@ local chimp = {
 }
 
 local expert = {
-  sentencetTime = 15,
+  sentenceTime = 15,
   healthMAX = 65,
   health = 65,
   staminaMAX = 25,
@@ -51,7 +51,7 @@ local expert = {
 }
 
 local hard = {
-  sentencetTime = 20,
+  sentenceTime = 20,
   healthMAX = 50,
   health = 50,
   staminaMAX = 25,
@@ -82,6 +82,30 @@ chimp.setWords = function()
 
   setWordBank(wordBank)
   chimp.attackWords = getWordBank()
+end
+
+chimp.setDifficulty = function()
+  if difficulty == 2 then
+    chimp.sentenceTime = hard.sentenceTime
+    chimp.healthMAX = hard.healthMAX
+    chimp.health = hard.health
+    chimp.staminaMAX = hard.staminaMAX
+    chimp.staminaRate = hard.staminaRate
+    chimp.attackRate = hard.attackRate
+    chimp.attackLength = hard.attackLength
+    chimp.attackSpeed = hard.attackSpeed
+    chimp.attackDamage = hard.attackDamage
+  elseif difficulty == 3 then
+    chimp.sentenceTime = expert.sentenceTime
+    chimp.healthMAX = expert.healthMAX
+    chimp.health = expert.health
+    chimp.staminaMAX = expert.staminaMAX
+    chimp.staminaRate = expert.staminaRate
+    chimp.attackRate = expert.attackRate
+    chimp.attackLength = expert.attackLength
+    chimp.attackSpeed = expert.attackSpeed
+    chimp.attackDamage = expert.attackDamage
+  end
 end
 
 chimp.load = function()

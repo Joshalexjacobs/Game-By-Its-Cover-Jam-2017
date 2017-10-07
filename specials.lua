@@ -45,6 +45,7 @@ specials.perfect = function(player)
   setLog(curEnemy.name .. " took "..damage.." damage and player was healed for " .. health .. " health!")
 
   player.health = player.health + health
+  if player.health > player.healthMAX then player.health = player.healthMAX end
   curEnemy.damage(damage)
 end
 
