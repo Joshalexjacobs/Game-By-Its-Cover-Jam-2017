@@ -146,19 +146,19 @@ function getExpert()
 end
 
 function loadWordFiles()
-  for line in io.lines("challengers/easy.txt") do
+  for line in love.filesystem.lines("challengers/easy.txt") do
     table.insert(easy, line)
   end
 
-  for line in io.lines("challengers/med.txt") do
+  for line in love.filesystem.lines("challengers/med.txt") do
     table.insert(med, line)
   end
 
-  for line in io.lines("challengers/hard.txt") do
+  for line in love.filesystem.lines("challengers/hard.txt") do
     table.insert(hard, line)
   end
 
-  for line in io.lines("challengers/expert.txt") do
+  for line in love.filesystem.lines("challengers/expert.txt") do
     table.insert(expert, line)
   end
 
